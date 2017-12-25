@@ -1,23 +1,49 @@
+buildscript {
+	ext {
+		springBootVersion = '1.5.2.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
 apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
 
 archivesBaseName = 'test4'
 version = '1.0-SNAPSHOT'
 repositories {
 	mavenCentral()
 }
-jar {
-	manifest {
-		attributes 'Main-Class': 'AppMain'
-	}
+//jar {
+//	manifest {
+//		attributes 'Main-Class': 'AppMain'
+//	}
+//}
+
+ext {
+	vaadinVersion = '7.7.7'
 }
+
 dependencies {
-	compile 'org.springframework:spring-core:4.0.6.RELEASE'
-	compile 'org.springframework:spring-context:4.0.6.RELEASE'
-	compile 'org.springframework:spring-tx:4.0.6.RELEASE'
-	compile 'org.springframework:spring-orm:4.0.6.RELEASE'
+	compile 'org.springframework:spring-core:4.3.7.RELEASE'
+	compile 'org.springframework:spring-context:4.3.7.RELEASE'
+	compile 'org.springframework:spring-tx:4.3.7.RELEASE'
+	compile 'org.springframework:spring-orm:4.3.7.RELEASE'
 	compile 'org.hibernate:hibernate-core:4.3.6.Final'
 	compile 'org.postgresql:postgresql:9.2-1003-jdbc4'
 	compile 'com.google.guava:guava:19.0'
+	compile('com.vaadin:vaadin-spring-boot-starter:1.2.0')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
 
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "com.vaadin:vaadin-bom:${vaadinVersion}"
+	}
 }
 

@@ -28,7 +28,7 @@ public class DataBaseService {
         dao.saveOrUpdate(domainEntity);
     }
 
-    public List<DomainEntity> findAll(Class classs) {
+    public <T extends DomainEntity> List<T> findAll(Class<T> classs) {
         return dao.findAll(classs);
     }
 
