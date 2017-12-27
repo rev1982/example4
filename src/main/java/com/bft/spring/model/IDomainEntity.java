@@ -8,8 +8,6 @@ import java.io.Serializable;
 
 public interface IDomainEntity<T extends Serializable> {
 
-    public static final String ID = "ID";
-
     public T getId();
 }
 

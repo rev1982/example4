@@ -13,16 +13,16 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'org.springframework.boot'
 
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+compileJava.options.encoding = 'UTF-8'
+
 archivesBaseName = 'test4'
 version = '1.0-SNAPSHOT'
 repositories {
 	mavenCentral()
 }
-//jar {
-//	manifest {
-//		attributes 'Main-Class': 'AppMain'
-//	}
-//}
 
 ext {
 	vaadinVersion = '7.7.7'

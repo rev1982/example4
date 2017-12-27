@@ -28,6 +28,10 @@ public class DataBaseService {
         dao.saveOrUpdate(domainEntity);
     }
 
+    public void delete(DomainEntity domainEntity){
+        dao.delete(domainEntity);
+    }
+
     public <T extends DomainEntity> List<T> findAll(Class<T> classs) {
         return dao.findAll(classs);
     }

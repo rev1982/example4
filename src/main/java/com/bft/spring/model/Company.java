@@ -114,7 +114,7 @@ public class Company extends DomainEntity<Long> {
         this.phone = phone;
     }
 
-    public Boolean isActual() {
+    public Boolean getActual() {
         return actual;
     }
 

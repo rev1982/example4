@@ -1,22 +1,21 @@
 package com.bft.spring;
 
 import com.bft.spring.model.Company;
-import com.bft.spring.model.DomainEntity;
+import com.bft.spring.model.SubdivisionPU;
+import com.bft.spring.model.TimeZone;
 import com.bft.spring.service.DataBaseService;
 import com.bft.spring.ui.BaseView;
 import com.bft.spring.ui.CompanyView;
 import com.vaadin.annotations.Theme;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.ui.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.ResourceBundleMessageSource;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.sql.Time;
+import java.time.LocalTime;
+
 
 /**
  * Created by rev on 21.12.2017.
@@ -25,21 +24,55 @@ import java.util.List;
 @Theme("valo")
 public class VaadinUI extends UI {
 
+    public static boolean created;
+
     @Autowired
     private DataBaseService dataBaseService;
 
-    private Company company;
+    @Autowired
+    ResourceBundleMessageSource messageSource;
 
     @Override
-    protected  void  init(VaadinRequest vaadinRequest){
-        //AppMain.main2(new String[0]);
+    protected void init(VaadinRequest vaadinRequest) {
+        if (!created) {
+            addCompany("tz3", "sPU3", "company3");
+            addCompany("tz4", "sPU4", "company4");
+            created = true;
+        }
 
-        new BaseView().setDataBaseService(dataBaseService);
+        BaseView baseView = new BaseView();
+        baseView.setDataBaseService(dataBaseService);
+        baseView.setMessageSource(messageSource);
 
         VerticalLayout verticalLayout = new VerticalLayout(new CompanyView().init());
-        verticalLayout.setMargin(true);
-        verticalLayout.setSpacing(true);
+        verticalLayout.setSizeFull();
 
         setContent(verticalLayout);
+    }
+
+    private void addCompany(String timeZoneName, String subdivisionPUName, String companyName) {
+        TimeZone timeZone = (TimeZone)dataBaseService.findByName(timeZoneName, TimeZone.class);
+        if (timeZone == null){
+            timeZone = new TimeZone();
+            timeZone.setName(timeZoneName);
+            dataBaseService.save(timeZone);
+        }
+
+        SubdivisionPU subdivisionPU = (SubdivisionPU)dataBaseService.findByName(subdivisionPUName,SubdivisionPU.class);
+        if (subdivisionPU == null) {
+            subdivisionPU = new SubdivisionPU();
+            subdivisionPU.setName(subdivisionPUName);
+            dataBaseService.save(subdivisionPU);
+        }
+
+        Company company = new Company();
+        company.setShortName(companyName);
+        company.setActual(true);
+        company.setTimeZone(timeZone);
+        company.setSubdivisionPU(subdivisionPU);
+        company.setPhone("1234567");
+        company.setActual(true);
+        company.setWorkFrom(Time.valueOf(LocalTime.of(8, 30, 00)));
+        dataBaseService.saveOrUpdate(company);
     }
 }
