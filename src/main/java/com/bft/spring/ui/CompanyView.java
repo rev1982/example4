@@ -3,15 +3,21 @@ package com.bft.spring.ui;
 import com.bft.spring.model.Company;
 import com.bft.spring.model.SubdivisionPU;
 import com.bft.spring.model.TimeZone;
+import com.bft.spring.service.DataBaseService;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.ui.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.context.support.ResourceBundleMessageSource;
+
 import java.util.List;
 
 
 /**
  * Created by rev on 24.12.2017.
  */
+@Configurable
 public class CompanyView extends BaseView {
 
 
@@ -37,7 +43,7 @@ public class CompanyView extends BaseView {
     private TextField noteField;
 
 
-    public VerticalSplitPanel init() {
+    public VerticalSplitPanel initContent() {
         createEditFields();
 
         VerticalLayout editLayout = new VerticalLayout(new HorizontalLayout(
@@ -48,10 +54,11 @@ public class CompanyView extends BaseView {
 
         container = createContainer(Company.class);
 
-        Table table = createTable("Company", container, new
+        Table table = createTable(getMessage("company.Company"), container, new
                 Object[]{"id", "shortName", "fullName", "legalAdress", "actualAdress", "inn",
-                "kpp", "fias", "phone", "actual", "vip", "timeZone", "workFrom", "workUntil",
-                "lunchFrom", "lunchUntil", "subdivisionDeId", "subdivisionPU",
+                //"kpp", "fias",
+                "phone", "actual",
+                //"vip", "timeZone", "workFrom", "workUntil", "lunchFrom", "lunchUntil", "subdivisionDeId", "subdivisionPU",
                 "note"});
         table.setSizeFull();
 
@@ -68,7 +75,7 @@ public class CompanyView extends BaseView {
             if (company == null)
                 return;
             updateCompanyFields();
-            dataBaseService.saveOrUpdate(company);
+            getDataBaseService().saveOrUpdate(company);
             updateContainer(Company.class);
         });
 
@@ -76,7 +83,7 @@ public class CompanyView extends BaseView {
         button2.addClickListener(event -> {
             company = new Company();
             updateCompanyFields();
-            dataBaseService.saveOrUpdate(company);
+            getDataBaseService().saveOrUpdate(company);
             updateContainer(Company.class);
         });
 
@@ -84,7 +91,7 @@ public class CompanyView extends BaseView {
         button3.addClickListener(event -> {
             if (company == null)
                 return;
-            dataBaseService.delete(company);
+            getDataBaseService().delete(company);
             updateContainer(Company.class);
         });
 
@@ -115,7 +122,7 @@ public class CompanyView extends BaseView {
     }
 
     private BeanItemContainer<String> createTimeZoneStringContainer() {
-        List<TimeZone> result = dataBaseService.findAll(TimeZone.class);
+        List<TimeZone> result = getDataBaseService().findAll(TimeZone.class);
         BeanItemContainer<String> container1 = new BeanItemContainer<>(String.class);
         for (TimeZone t : result) {
             container1.addItem(t.getName());
@@ -124,7 +131,7 @@ public class CompanyView extends BaseView {
     }
 
     private BeanItemContainer<String> createSubdivisionPUStringContainer() {
-        List<SubdivisionPU> result = dataBaseService.findAll(SubdivisionPU.class);
+        List<SubdivisionPU> result = getDataBaseService().findAll(SubdivisionPU.class);
         BeanItemContainer<String> container = new BeanItemContainer<>(String.class);
         for (SubdivisionPU s : result) {
             container.addItem(s.getName());
@@ -193,7 +200,7 @@ public class CompanyView extends BaseView {
                 Boolean.parseBoolean(actualCombo.getValue().toString()));
         company.setVip(vipField.getValue());
         company.setTimeZone(timezoneCombo.getValue() == null ? null :
-                (TimeZone) dataBaseService.findByName(timezoneCombo.getValue().toString(), TimeZone.class));
+                (TimeZone) getDataBaseService().findByName(timezoneCombo.getValue().toString(), TimeZone.class));
         company.setWorkFrom(getTimeFromCombo(workFromField.getValue()));
         company.setWorkUntil(getTimeFromCombo(workUntilField.getValue()));
         company.setLunchFrom(getTimeFromCombo(lunchFromField.getValue()));
@@ -201,7 +208,7 @@ public class CompanyView extends BaseView {
         company.setSubdivisionDeId(subdivisionDeIdField.getValue() == null || subdivisionDeIdField.getValue().length() == 0 ?
                 null : Long.parseLong(subdivisionDeIdField.getValue()));
         company.setSubdivisionPU(subdivisionPUField.getValue() == null ? null :
-                (SubdivisionPU) dataBaseService.findByName(subdivisionPUField.getValue().toString(), SubdivisionPU.class));
+                (SubdivisionPU) getDataBaseService().findByName(subdivisionPUField.getValue().toString(), SubdivisionPU.class));
         company.setNote(noteField.getValue());
     }
 

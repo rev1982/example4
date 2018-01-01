@@ -4,8 +4,9 @@ import com.bft.spring.model.IDomainEntity;
 import com.bft.spring.service.DataBaseService;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.ui.Table;
-import com.vaadin.ui.TextField;
+import com.vaadin.ui.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
 import java.sql.Time;
@@ -17,9 +18,14 @@ import java.util.List;
 /**
  * Created by rev on 24.12.2017.
  */
-public class BaseView<T extends IDomainEntity> {
-    public static DataBaseService dataBaseService;
-    public static ResourceBundleMessageSource messageSource;
+@Configurable
+public class BaseView<T extends IDomainEntity> extends ViewInit {
+    @Autowired
+    private DataBaseService dataBaseService;
+
+    @Autowired
+    private ResourceBundleMessageSource messageSource;
+
     protected BeanItemContainer<T> container;
     private BeanItemContainer<String> timeContainer;
 
@@ -39,12 +45,16 @@ public class BaseView<T extends IDomainEntity> {
         return field;
     }
 
-    public void setDataBaseService(DataBaseService dataBaseService) {
-        this.dataBaseService = dataBaseService;
-    }
-
     public void setMessageSource(ResourceBundleMessageSource messageSource) {
         this.messageSource = messageSource;
+    }
+
+    public DataBaseService getDataBaseService() {
+        return dataBaseService;
+    }
+
+    public ResourceBundleMessageSource getMessageSource() {
+        return messageSource;
     }
 
     public void updateContainer(Class clazz) {
@@ -92,4 +102,11 @@ public class BaseView<T extends IDomainEntity> {
     public String getMessage(String s) {
         return messageSource.getMessage(s, null, null);
     }
+
+    @Override
+    public Component initContent() {
+        return new VerticalLayout();
+    }
+
+
 }
