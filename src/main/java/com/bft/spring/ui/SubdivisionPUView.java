@@ -7,10 +7,9 @@ package com.bft.spring.ui;
 import com.bft.spring.model.SubdivisionPU;
 import com.vaadin.data.Property;
 import com.vaadin.ui.*;
-import org.springframework.beans.factory.annotation.Configurable;
+import com.vaadin.ui.Component;
 
-
-@Configurable
+@org.springframework.stereotype.Component("subdivisionPUView")
 public class SubdivisionPUView extends BaseView {
 
     private SubdivisionPU subdivisionPU;

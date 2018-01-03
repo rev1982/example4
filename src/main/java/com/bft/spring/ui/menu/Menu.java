@@ -1,14 +1,13 @@
 package com.bft.spring.ui.menu;
 
 import com.bft.spring.VaadinUI;
-import com.bft.spring.configuration.AppConfig;
-import com.bft.spring.model.SubdivisionPU;
+import com.bft.spring.messages.Messages;
 import com.bft.spring.ui.*;
 import com.vaadin.event.ItemClickEvent;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.ui.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -16,9 +15,8 @@ import java.util.List;
  * Created by rev on 27.12.2017.
  */
 
-public class Menu implements Serializable {
-
-    private Layout treeLayout;
+@org.springframework.stereotype.Component("menu")
+public class Menu {
 
     private Navigator navigator;
 
@@ -28,16 +26,25 @@ public class Menu implements Serializable {
 
     private MenuGroup menuSet;
 
-    private AppConfig appConfig;
+    @Autowired
+    TimeZoneView timeZoneView;
 
-    public Menu(Layout treeLayout, Layout contentViewLayout, AppConfig appConfig) {
-        this.treeLayout = treeLayout;
-        this.appConfig = appConfig;
+    @Autowired
+    CompanyView companyView;
+
+    @Autowired
+    UserTableView userTableView;
+
+    @Autowired
+    SubdivisionPUView subdivisionPUView;
+
+    @Autowired
+    Messages messageSource;
+
+
+    public void build(Layout treeLayout, Layout contentViewLayout) {
         navigator = new Navigator(VaadinUI.getCurrent(), contentViewLayout);
         VaadinUI.getCurrent().setNavigator(navigator);
-    }
-
-    public void build() {
         MenuNavigatorBuilder.init(navigator);
         Tree menuTree = buildTree();
         menuTree.setImmediate(true);
@@ -69,25 +76,25 @@ public class Menu implements Serializable {
         allForms.clear();
 
         menuSet = new MenuGroup("root");
-        MenuGroup companyGroup = tryAddGroup(appConfig.messageSource().getMessage("menu.company", null, null), menuSet);
+        MenuGroup companyGroup = tryAddGroup(messageSource.getMessage("menu.company"), menuSet);
 
 
-        tryAddForm(CompanyView.class, appConfig.companyView(), companyGroup);
-        tryAddForm(SubdivisionPUView.class, appConfig.subdivisionPUView(), companyGroup);
-        tryAddForm(UserTableView.class, appConfig.userTableView(), companyGroup);
+        tryAddForm(CompanyView.class, companyView, companyGroup);
+        tryAddForm(SubdivisionPUView.class, subdivisionPUView, companyGroup);
+        tryAddForm(UserTableView.class, userTableView, companyGroup);
 
         menuSet.addSubgroup(companyGroup);
 
 
-        MenuGroup timezoneGroup = tryAddGroup(appConfig.messageSource().getMessage("menu.timezone", null, null), menuSet);
+        MenuGroup timezoneGroup = tryAddGroup(messageSource.getMessage("menu.timezone"), menuSet);
 
-        tryAddForm(TimeZoneView.class, appConfig.timeZoneView(), timezoneGroup);
+        tryAddForm(TimeZoneView.class, timeZoneView, timezoneGroup);
         menuSet.addSubgroup(timezoneGroup);
 
     }
 
     private void tryAddForm(Class<? extends BaseView> clzz, BaseView baseView, MenuGroup parent) {
-        String code = appConfig.messageSource().getMessage(clzz.getSimpleName(), null, null);
+        String code = messageSource.getMessage(clzz.getSimpleName());
         MenuItem item = new MenuItem(code);
         allForms.add(item);
 

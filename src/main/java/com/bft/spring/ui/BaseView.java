@@ -1,13 +1,13 @@
 package com.bft.spring.ui;
 
+import com.bft.spring.messages.Messages;
 import com.bft.spring.model.IDomainEntity;
 import com.bft.spring.service.DataBaseService;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.ui.*;
+import com.vaadin.ui.Component;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Configurable;
-import org.springframework.context.support.ResourceBundleMessageSource;
 
 import java.sql.Time;
 import java.time.LocalTime;
@@ -18,13 +18,13 @@ import java.util.List;
 /**
  * Created by rev on 24.12.2017.
  */
-@Configurable
+@org.springframework.stereotype.Component("baseView")
 public class BaseView<T extends IDomainEntity> extends ViewInit {
     @Autowired
     private DataBaseService dataBaseService;
 
     @Autowired
-    private ResourceBundleMessageSource messageSource;
+    private Messages messageSource;
 
     protected BeanItemContainer<T> container;
     private BeanItemContainer<String> timeContainer;
@@ -48,17 +48,11 @@ public class BaseView<T extends IDomainEntity> extends ViewInit {
         return field;
     }
 
-    public void setMessageSource(ResourceBundleMessageSource messageSource) {
-        this.messageSource = messageSource;
-    }
 
     public DataBaseService getDataBaseService() {
         return dataBaseService;
     }
 
-    public ResourceBundleMessageSource getMessageSource() {
-        return messageSource;
-    }
 
     public void updateContainer(Class clazz) {
         container.removeAllItems();
@@ -103,7 +97,7 @@ public class BaseView<T extends IDomainEntity> extends ViewInit {
     }
 
     public String getMessage(String s) {
-        return messageSource.getMessage(s, null, null);
+        return messageSource.getMessage(s);
     }
 
     @Override
@@ -126,8 +120,8 @@ public class BaseView<T extends IDomainEntity> extends ViewInit {
         verticalLayout.setSizeFull();
         verticalLayout.setMargin(true);
         verticalLayout.setSpacing(true);
-        verticalLayout.setExpandRatio(editLayout, 0.85f);
-        verticalLayout.setExpandRatio(buttonLayout, 0.15f);
+        verticalLayout.setExpandRatio(editLayout, 0.70f);
+        verticalLayout.setExpandRatio(buttonLayout, 0.30f);
 
         VerticalSplitPanel splitPanel = new VerticalSplitPanel();
         Panel upComponent = new Panel();

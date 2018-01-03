@@ -3,12 +3,10 @@ package com.bft.spring.ui.menu;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.bft.spring.ui.BaseView;
-import org.springframework.beans.factory.annotation.Configurable;
 
 import java.util.HashMap;
 import java.util.Map;
 
-@Configurable
 public class MenuNavigatorBuilder {
 
     private static Navigator navigator;

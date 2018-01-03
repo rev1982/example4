@@ -8,11 +8,9 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.VerticalLayout;
-import org.springframework.beans.factory.annotation.Configurable;
 
 import javax.annotation.PostConstruct;
 
-@Configurable
 public abstract class ViewInit extends VerticalLayout implements View {
 
     public ViewInit() {

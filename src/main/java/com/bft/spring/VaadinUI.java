@@ -1,6 +1,5 @@
 package com.bft.spring;
 
-import com.bft.spring.configuration.AppConfig;
 import com.bft.spring.model.Company;
 import com.bft.spring.model.SubdivisionPU;
 import com.bft.spring.model.TimeZone;
@@ -29,7 +28,7 @@ public class VaadinUI extends UI {
     private DataBaseService dataBaseService;
 
     @Autowired
-    AppConfig appConfig;
+    MainLayout mainLayout;
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
@@ -40,7 +39,7 @@ public class VaadinUI extends UI {
         }
 
         setSizeFull();
-        MainLayout mainLayout = new MainLayout(appConfig);
+        mainLayout.init();
         setContent(mainLayout);
     }
 

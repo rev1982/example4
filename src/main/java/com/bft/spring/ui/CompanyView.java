@@ -6,9 +6,7 @@ import com.bft.spring.model.TimeZone;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.ui.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Configurable;
-import org.springframework.context.support.ResourceBundleMessageSource;
+import com.vaadin.ui.Component;
 
 import java.util.List;
 
@@ -16,7 +14,7 @@ import java.util.List;
 /**
  * Created by rev on 24.12.2017.
  */
-@Configurable
+@org.springframework.stereotype.Component("companyView")
 public class CompanyView extends BaseView {
 
 

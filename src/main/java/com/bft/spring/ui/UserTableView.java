@@ -5,7 +5,7 @@ import com.bft.spring.model.UserTable;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.ui.*;
-import org.springframework.beans.factory.annotation.Configurable;
+import com.vaadin.ui.Component;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by rev on 24.12.2017.
  */
-@Configurable
+@org.springframework.stereotype.Component("userTableView")
 public class UserTableView extends BaseView {
 
 

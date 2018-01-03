@@ -1,23 +1,31 @@
 package com.bft.spring.ui;
 
-import com.bft.spring.configuration.AppConfig;
+import com.bft.spring.messages.Messages;
 import com.bft.spring.ui.menu.Menu;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
+@org.springframework.stereotype.Component("mainLayout")
 public class MainLayout extends VerticalLayout {
     private VerticalLayout treeLayout = new VerticalLayout();
     private VerticalLayout contentViewLayout = new VerticalLayout();
-    private Menu menu;
-    private AppConfig appConfig;
+    private boolean initialised;
+    @Autowired
+    Menu menu;
+    @Autowired
+    Messages messageSource;
 
-    public MainLayout(AppConfig appConfig) {
-        this.appConfig = appConfig;
+
+    public void init() {
+        if (initialised)
+            return;
         setSizeFull();
-        menu = new Menu(treeLayout, contentViewLayout, appConfig);
         buildMainContent();
-        menu.build();
+        menu.build(treeLayout, contentViewLayout);
+        initialised = true;
     }
+
 
     // шапка
     private Layout buildHeader() {
@@ -30,7 +38,7 @@ public class MainLayout extends VerticalLayout {
         contentLayuot.setWidth(100, Unit.PERCENTAGE);
         contentLayuot.setSpacing(false);
 
-        Label header = new Label(appConfig.messageSource().getMessage("AppName",null, null), ContentMode.TEXT);
+        Label header = new Label(messageSource.getMessage("AppName"), ContentMode.TEXT);
         contentLayuot.addComponent(header);
         contentLayuot.setComponentAlignment(header, Alignment.MIDDLE_RIGHT);
         contentLayuot.setSizeFull();
