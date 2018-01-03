@@ -3,7 +3,6 @@ package com.bft.spring.ui;
 import com.bft.spring.model.Company;
 import com.bft.spring.model.SubdivisionPU;
 import com.bft.spring.model.TimeZone;
-import com.bft.spring.service.DataBaseService;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.ui.*;
@@ -70,8 +69,9 @@ public class CompanyView extends BaseView {
                     }
                 });
 
-        Button button = new Button(getMessage("button.update"));
-        button.addClickListener(event -> {
+        VerticalSplitPanel verticalSplitPanel = createVerticalSplitPanel(table, editLayout);
+
+        buttonUpdate.addClickListener(event -> {
             if (company == null)
                 return;
             updateCompanyFields();
@@ -79,46 +79,21 @@ public class CompanyView extends BaseView {
             updateContainer(Company.class);
         });
 
-        Button button2 = new Button(getMessage("button.create"));
-        button2.addClickListener(event -> {
+        buttonCreate.addClickListener(event -> {
             company = new Company();
             updateCompanyFields();
             getDataBaseService().saveOrUpdate(company);
             updateContainer(Company.class);
         });
 
-        Button button3 = new Button(getMessage("button.delete"));
-        button3.addClickListener(event -> {
+        buttonDelete.addClickListener(event -> {
             if (company == null)
                 return;
             getDataBaseService().delete(company);
             updateContainer(Company.class);
         });
 
-        HorizontalLayout buttonLayout = new HorizontalLayout(button, button2, button3);
-        buttonLayout.setMargin(true);
-        buttonLayout.setSpacing(true);
-
-        VerticalLayout verticalLayout = new VerticalLayout(editLayout, buttonLayout);
-        verticalLayout.setSizeFull();
-        verticalLayout.setMargin(true);
-        verticalLayout.setSpacing(true);
-        verticalLayout.setExpandRatio(editLayout, 0.85f);
-        verticalLayout.setExpandRatio(buttonLayout, 0.15f);
-
-        VerticalSplitPanel splitPanel = new VerticalSplitPanel();
-        Panel upComponent = new Panel();
-        Panel downComponent = new Panel();
-        splitPanel.setFirstComponent(upComponent);
-        splitPanel.setSecondComponent(downComponent);
-        upComponent.setContent(new VerticalLayout(table));
-        downComponent.setContent(verticalLayout);
-
-        upComponent.setSizeFull();
-        downComponent.setSizeFull();
-        splitPanel.setSizeFull();
-
-        return splitPanel;
+        return verticalSplitPanel;
     }
 
     private BeanItemContainer<String> createTimeZoneStringContainer() {

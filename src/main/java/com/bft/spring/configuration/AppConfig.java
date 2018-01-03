@@ -1,9 +1,6 @@
 package com.bft.spring.configuration;
 
-import com.bft.spring.ui.BaseView;
-import com.bft.spring.ui.CompanyView;
-import com.bft.spring.ui.TimeZoneView;
-import com.bft.spring.ui.ViewInit;
+import com.bft.spring.ui.*;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.VerticalLayout;
 import org.springframework.context.annotation.Bean;
@@ -48,6 +45,16 @@ public class AppConfig {
         BaseView baseView = new BaseView();
         baseView.setMessageSource(messageSource());
         return baseView;
+    }
+
+    @Bean
+    public SubdivisionPUView subdivisionPUView() {
+        return new SubdivisionPUView();
+    }
+
+    @Bean
+    public UserTableView userTableView() {
+        return new UserTableView();
     }
 
 }

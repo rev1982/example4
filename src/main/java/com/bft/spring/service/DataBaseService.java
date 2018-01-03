@@ -40,6 +40,10 @@ public class DataBaseService {
         return dao.findByName(name, classs);
     }
 
+    public DomainEntity findByFullName(String fullName, Class classs){
+        return dao.findByFullName(fullName, classs);
+    }
+
     public void update(DomainEntity domainEntity){
         dao.update(domainEntity);
     }

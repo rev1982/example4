@@ -34,6 +34,12 @@ public class DaoImpl extends AbstractDao{
         return (DomainEntity) criteria.uniqueResult();
     }
 
+    public DomainEntity findByFullName(String fullName, Class classs){
+        Criteria criteria = getSession().createCriteria(classs);
+        criteria.add(Restrictions.eq("fullName", fullName));
+        return (DomainEntity) criteria.uniqueResult();
+    }
+
     public void update(DomainEntity domainEntity){
         getSession().update(domainEntity);
     }

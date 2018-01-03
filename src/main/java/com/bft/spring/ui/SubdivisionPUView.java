@@ -1,19 +1,19 @@
 package com.bft.spring.ui;
 
 /**
- * Created by rev on 28.12.2017.
+ * Created by rev on 01.01.2018.
  */
 
-import com.bft.spring.model.TimeZone;
+import com.bft.spring.model.SubdivisionPU;
 import com.vaadin.data.Property;
 import com.vaadin.ui.*;
 import org.springframework.beans.factory.annotation.Configurable;
 
 
 @Configurable
-public class TimeZoneView extends BaseView {
+public class SubdivisionPUView extends BaseView {
 
-    private TimeZone timezone;
+    private SubdivisionPU subdivisionPU;
 
     private TextField nameField;
 
@@ -24,9 +24,9 @@ public class TimeZoneView extends BaseView {
         VerticalLayout editLayout = new VerticalLayout(new HorizontalLayout(
                 new Component[]{nameField}));
 
-        container = createContainer(TimeZone.class);
+        container = createContainer(SubdivisionPU.class);
 
-        Table table = createTable(getMessage("timezone.TimeZone"), container, new
+        Table table = createTable(getMessage("subdivisionPU.SubdivisionPU"), container, new
                 Object[]{"id", "name"});
         table.setSizeFull();
         table.setColumnWidth("id", 150);
@@ -34,8 +34,8 @@ public class TimeZoneView extends BaseView {
 
         table.addValueChangeListener(
                 (Property.ValueChangeEvent event) -> {
-                    timezone = (TimeZone) table.getValue();
-                    if (timezone != null) {
+                    subdivisionPU = (SubdivisionPU) table.getValue();
+                    if (subdivisionPU != null) {
                         updateEditPanelFields();
                     }
                 });
@@ -43,40 +43,41 @@ public class TimeZoneView extends BaseView {
         VerticalSplitPanel verticalSplitPanel = createVerticalSplitPanel(table, editLayout);
 
         buttonUpdate.addClickListener(event -> {
-            if (timezone == null)
+            if (subdivisionPU == null)
                 return;
-            updateTimeZoneFields();
-            getDataBaseService().saveOrUpdate(timezone);
-            updateContainer(TimeZone.class);
+            updateSubdivisionPUFields();
+            getDataBaseService().saveOrUpdate(subdivisionPU);
+            updateContainer(SubdivisionPU.class);
         });
 
         buttonCreate.addClickListener(event -> {
-            timezone = new TimeZone();
-            updateTimeZoneFields();
-            getDataBaseService().saveOrUpdate(timezone);
-            updateContainer(TimeZone.class);
+            subdivisionPU = new SubdivisionPU();
+            updateSubdivisionPUFields();
+            getDataBaseService().saveOrUpdate(subdivisionPU);
+            updateContainer(SubdivisionPU.class);
         });
 
         buttonDelete.addClickListener(event -> {
-            if (timezone == null)
+            if (subdivisionPU == null)
                 return;
-            getDataBaseService().delete(timezone);
-            updateContainer(TimeZone.class);
+            getDataBaseService().delete(subdivisionPU);
+            updateContainer(SubdivisionPU.class);
         });
+
 
         return verticalSplitPanel;
     }
 
     private void updateEditPanelFields() {
-        nameField.setValue(notNullVal(timezone.getName()));
+        nameField.setValue(notNullVal(subdivisionPU.getName()));
     }
 
-    private void updateTimeZoneFields() {
-        timezone.setName(nameField.getValue());
+    private void updateSubdivisionPUFields() {
+        subdivisionPU.setName(nameField.getValue());
     }
 
     private void createEditFields() {
-        nameField = createTextField(getMessage("timezone.name"));
+        nameField = createTextField(getMessage("subdivisionPU.name"));
     }
 
 }

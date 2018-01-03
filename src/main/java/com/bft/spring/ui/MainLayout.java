@@ -47,7 +47,7 @@ public class MainLayout extends VerticalLayout {
         setExpandRatio(headerLayout, 0.07f);
 
         HorizontalSplitPanel horizontalSplitPanel = new HorizontalSplitPanel();
-        horizontalSplitPanel.setSplitPosition(10, Unit.PERCENTAGE);
+        horizontalSplitPanel.setSplitPosition(13, Unit.PERCENTAGE);
         contentViewLayout.setSizeFull();
         horizontalSplitPanel.setFirstComponent(treeLayout);
         horizontalSplitPanel.setSecondComponent(contentViewLayout);

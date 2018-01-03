@@ -2,9 +2,8 @@ package com.bft.spring.ui.menu;
 
 import com.bft.spring.VaadinUI;
 import com.bft.spring.configuration.AppConfig;
-import com.bft.spring.ui.BaseView;
-import com.bft.spring.ui.CompanyView;
-import com.bft.spring.ui.TimeZoneView;
+import com.bft.spring.model.SubdivisionPU;
+import com.bft.spring.ui.*;
 import com.vaadin.event.ItemClickEvent;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.ui.*;
@@ -73,22 +72,22 @@ public class Menu implements Serializable {
         MenuGroup companyGroup = tryAddGroup(appConfig.messageSource().getMessage("menu.company", null, null), menuSet);
 
 
-        if (companyGroup != null) {
-            tryAddForm(CompanyView.class, appConfig.companyView(), companyGroup);
-            menuSet.addSubgroup(companyGroup);
-        }
+        tryAddForm(CompanyView.class, appConfig.companyView(), companyGroup);
+        tryAddForm(SubdivisionPUView.class, appConfig.subdivisionPUView(), companyGroup);
+        tryAddForm(UserTableView.class, appConfig.userTableView(), companyGroup);
+
+        menuSet.addSubgroup(companyGroup);
+
 
         MenuGroup timezoneGroup = tryAddGroup(appConfig.messageSource().getMessage("menu.timezone", null, null), menuSet);
 
+        tryAddForm(TimeZoneView.class, appConfig.timeZoneView(), timezoneGroup);
+        menuSet.addSubgroup(timezoneGroup);
 
-        if (timezoneGroup != null) {
-            tryAddForm(TimeZoneView.class, appConfig.timeZoneView(), timezoneGroup);
-            menuSet.addSubgroup(timezoneGroup);
-        }
     }
 
     private void tryAddForm(Class<? extends BaseView> clzz, BaseView baseView, MenuGroup parent) {
-        String code = appConfig.messageSource().getMessage(clzz.getSimpleName(),null,null);
+        String code = appConfig.messageSource().getMessage(clzz.getSimpleName(), null, null);
         MenuItem item = new MenuItem(code);
         allForms.add(item);
 

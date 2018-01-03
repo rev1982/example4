@@ -28,6 +28,9 @@ public class BaseView<T extends IDomainEntity> extends ViewInit {
 
     protected BeanItemContainer<T> container;
     private BeanItemContainer<String> timeContainer;
+    protected Button buttonUpdate;
+    protected Button buttonCreate;
+    protected Button buttonDelete;
 
     public Table createTable(String tableName, Container container, Object[] visibleColumns) {
         Table table = new Table(tableName);
@@ -106,6 +109,39 @@ public class BaseView<T extends IDomainEntity> extends ViewInit {
     @Override
     public Component initContent() {
         return new VerticalLayout();
+    }
+
+    public VerticalSplitPanel createVerticalSplitPanel(Table table, VerticalLayout editLayout) {
+        buttonUpdate = new Button(getMessage("button.update"));
+
+        buttonCreate = new Button(getMessage("button.create"));
+
+        buttonDelete = new Button(getMessage("button.delete"));
+
+        HorizontalLayout buttonLayout = new HorizontalLayout(buttonUpdate, buttonCreate, buttonDelete);
+        buttonLayout.setMargin(true);
+        buttonLayout.setSpacing(true);
+
+        VerticalLayout verticalLayout = new VerticalLayout(editLayout, buttonLayout);
+        verticalLayout.setSizeFull();
+        verticalLayout.setMargin(true);
+        verticalLayout.setSpacing(true);
+        verticalLayout.setExpandRatio(editLayout, 0.85f);
+        verticalLayout.setExpandRatio(buttonLayout, 0.15f);
+
+        VerticalSplitPanel splitPanel = new VerticalSplitPanel();
+        Panel upComponent = new Panel();
+        Panel downComponent = new Panel();
+        splitPanel.setFirstComponent(upComponent);
+        splitPanel.setSecondComponent(downComponent);
+        upComponent.setContent(new VerticalLayout(table));
+        downComponent.setContent(verticalLayout);
+
+        upComponent.setSizeFull();
+        downComponent.setSizeFull();
+        splitPanel.setSizeFull();
+
+        return splitPanel;
     }
 
 
