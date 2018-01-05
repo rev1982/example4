@@ -1,5 +1,6 @@
 package com.bft.spring;
 
+import com.bft.spring.configuration.HibernateConfiguration;
 import com.bft.spring.model.Company;
 import com.bft.spring.model.SubdivisionPU;
 import com.bft.spring.model.TimeZone;
@@ -10,6 +11,8 @@ import com.vaadin.server.VaadinRequest;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.ui.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.sql.Time;
 import java.time.LocalTime;
@@ -24,6 +27,8 @@ public class VaadinUI extends UI {
 
     public static boolean created;
 
+    ApplicationContext context = new AnnotationConfigApplicationContext(HibernateConfiguration.class);
+
     @Autowired
     private DataBaseService dataBaseService;
 
@@ -32,13 +37,15 @@ public class VaadinUI extends UI {
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
-        if (!created) {//TODO убрать
-            addCompany("tz3", "sPU3", "company3");
-            addCompany("tz4", "sPU4", "company4");
-            created = true;
-        }
+//        if (!created) {//TODO убрать
+//            addCompany("tz3", "sPU3", "company3");
+//            addCompany("tz4", "sPU4", "company4");
+//            created = true;
+//        }
+
 
         setSizeFull();
+        MainLayout mainLayout = (MainLayout)context.getBean("mainLayout");
         mainLayout.init();
         setContent(mainLayout);
     }
@@ -69,4 +76,8 @@ public class VaadinUI extends UI {
         dataBaseService.saveOrUpdate(company);
     }
 
+    @Override
+    public Component getContent() {
+        return super.getContent();
+    }
 }
