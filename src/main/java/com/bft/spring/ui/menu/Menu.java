@@ -42,6 +42,12 @@ public class Menu {
     Messages messageSource;
     @Autowired
     SubsidiaryView subsidiaryView;
+    @Autowired
+    ContractTypeView contractTypeView;
+    @Autowired
+    ContractView contractView;
+    @Autowired
+    CustomerCompanyView customerCompanyView;
 
 
     public void build(Layout treeLayout, Layout contentViewLayout) {
@@ -80,19 +86,21 @@ public class Menu {
         menuSet = new MenuGroup("root");
         MenuGroup companyGroup = tryAddGroup(messageSource.getMessage("menu.company"), menuSet);
 
-
         tryAddForm(CompanyView.class, companyView, companyGroup);
         tryAddForm(SubdivisionPUView.class, subdivisionPUView, companyGroup);
         tryAddForm(UserTableView.class, userTableView, companyGroup);
         tryAddForm(SubsidiaryView.class, subsidiaryView, companyGroup);
+        tryAddForm(TimeZoneView.class, timeZoneView, companyGroup);
 
         menuSet.addSubgroup(companyGroup);
 
 
-        MenuGroup timezoneGroup = tryAddGroup(messageSource.getMessage("menu.timezone"), menuSet);
+        MenuGroup contractGroup = tryAddGroup(messageSource.getMessage("menu.Contract"), menuSet);
 
-        tryAddForm(TimeZoneView.class, timeZoneView, timezoneGroup);
-        menuSet.addSubgroup(timezoneGroup);
+        tryAddForm(ContractTypeView.class, contractTypeView , contractGroup);
+        tryAddForm(ContractView.class, contractView , contractGroup);
+        tryAddForm(CustomerCompanyView.class, customerCompanyView , contractGroup);
+        menuSet.addSubgroup(contractGroup);
 
     }
 

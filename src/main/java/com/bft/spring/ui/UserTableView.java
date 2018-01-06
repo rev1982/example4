@@ -79,21 +79,6 @@ public class UserTableView extends BaseView {
         return verticalSplitPanel;
     }
 
-    private BeanItemContainer<String> createCompanyFullNameContainer() {
-        List<Company> result = getDataBaseService().findAll(Company.class);
-        BeanItemContainer<String> container = new BeanItemContainer<>(String.class);
-        for (Company s : result) {
-            container.addItem(s.getFullName());
-        }
-        return container;
-    }
-
-    private ComboBox createCompanyCombo() {
-        ComboBox companyCombo = new ComboBox(getMessage("user.company"));
-        companyCombo.setContainerDataSource(createCompanyFullNameContainer());
-        return companyCombo;
-    }
-
 
     private void updateEditPanelFields() {
         userNameField.setValue(notNullVal(userTable.getUserName()));
@@ -126,7 +111,7 @@ public class UserTableView extends BaseView {
         icqField = createTextField(getMessage("user.icq"));
         positionField = createTextField(getMessage("user.position"));
         blockingCauseField = createTextField(getMessage("user.blockingCause"));
-        companyIdField = createCompanyCombo();
+        companyIdField = createCombo("user.company", createStringContainer("Company", "fullName"));
     }
 
 }

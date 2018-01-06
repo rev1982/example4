@@ -34,6 +34,13 @@ public class DaoImpl extends AbstractDao{
         return (DomainEntity) criteria.uniqueResult();
     }
 
+    public DomainEntity findById(Long id, Class classs){
+        Criteria criteria = getSession().createCriteria(classs);
+        criteria.add(Restrictions.eq("id", id));
+        return (DomainEntity) criteria.uniqueResult();
+    }
+
+
     public DomainEntity findByFullName(String fullName, Class classs){
         Criteria criteria = getSession().createCriteria(classs);
         criteria.add(Restrictions.eq("fullName", fullName));
@@ -42,6 +49,14 @@ public class DaoImpl extends AbstractDao{
 
     public void update(DomainEntity domainEntity){
         getSession().update(domainEntity);
+    }
+
+    public List<String> getAllStringColumnValues(String tableName, String columnName){
+        return getSession().createQuery("SELECT mt." + columnName + " FROM " + tableName + " mt").list();
+    }
+
+    public List<Long> getAllLongColumnValues(String tableName, String columnName){
+        return getSession().createQuery("SELECT mt." + columnName + " FROM " + tableName + " mt").list();
     }
 
 }

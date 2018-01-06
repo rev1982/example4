@@ -1,7 +1,7 @@
 package com.bft.spring.ui;
 
 import com.bft.spring.messages.Messages;
-import com.bft.spring.model.IDomainEntity;
+import com.bft.spring.model.*;
 import com.bft.spring.service.DataBaseService;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.BeanItemContainer;
@@ -138,5 +138,29 @@ public class BaseView<T extends IDomainEntity> extends ViewInit {
         return splitPanel;
     }
 
+    public BeanItemContainer<String> createBooleanStringContainer() {
+        BeanItemContainer<String> container = new BeanItemContainer<>(String.class);
+        container.addItem("no");
+        container.addItem("yes");
+        return container;
+    }
+
+    public ComboBox createCombo(String s, BeanItemContainer<String> container) {
+        ComboBox combo = new ComboBox(getMessage(s));
+        combo.setContainerDataSource(container);
+        return combo;
+    }
+
+    public BeanItemContainer<Long> createIdContainer(String tableName, String columnName) {
+        BeanItemContainer<Long> container = new BeanItemContainer<>(Long.class);
+        container.addAll(dataBaseService.getAllLongColumnValues(tableName, columnName));
+        return container;
+    }
+
+    public BeanItemContainer<String> createStringContainer(String tableName, String columnName) {
+        BeanItemContainer<String> container = new BeanItemContainer<>(String.class);
+        container.addAll(dataBaseService.getAllStringColumnValues(tableName, columnName));
+        return container;
+    }
 
 }

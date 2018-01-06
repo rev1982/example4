@@ -5,8 +5,6 @@ package com.bft.spring.ui;
  */
 import com.bft.spring.model.Company;
 import com.bft.spring.model.Subsidiary;
-import com.bft.spring.model.TimeZone;
-import com.bft.spring.model.UserTable;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.ui.*;
@@ -22,9 +20,6 @@ public class SubsidiaryView extends BaseView {
     private ComboBox subsidiaryCompanyIdField;
 
     private ComboBox parentCompanyIdField;
-
-    private ComboBox companyIdField;
-
 
 
     public VerticalSplitPanel initContent() {
@@ -52,41 +47,26 @@ public class SubsidiaryView extends BaseView {
         buttonUpdate.addClickListener(event -> {
             if (subsidiary == null)
                 return;
-            updateUserTableFields();
+            updateFields();
             getDataBaseService().saveOrUpdate(subsidiary);
-            updateContainer(UserTable.class);
+            updateContainer(Subsidiary.class);
         });
 
         buttonCreate.addClickListener(event -> {
             subsidiary = new Subsidiary();
-            updateUserTableFields();
+            updateFields();
             getDataBaseService().saveOrUpdate(subsidiary);
-            updateContainer(UserTable.class);
+            updateContainer(Subsidiary.class);
         });
 
         buttonDelete.addClickListener(event -> {
             if (subsidiary == null)
                 return;
             getDataBaseService().delete(subsidiary);
-            updateContainer(UserTable.class);
+            updateContainer(Subsidiary.class);
         });
 
         return verticalSplitPanel;
-    }
-
-    private BeanItemContainer<String> createCompanyFullNameContainer() {
-        List<Company> result = getDataBaseService().findAll(Company.class);
-        BeanItemContainer<String> container = new BeanItemContainer<>(String.class);
-        for (Company s : result) {
-            container.addItem(s.getFullName());
-        }
-        return container;
-    }
-
-    private ComboBox createCompanyCombo(String s) {
-        ComboBox companyCombo = new ComboBox(getMessage(s));
-        companyCombo.setContainerDataSource(createCompanyFullNameContainer());
-        return companyCombo;
     }
 
 
@@ -95,7 +75,7 @@ public class SubsidiaryView extends BaseView {
         parentCompanyIdField.setValue(subsidiary.getParentCompany() != null ? subsidiary.getParentCompany().getFullName() : "");
     }
 
-    private void updateUserTableFields() {
+    private void updateFields() {
         subsidiary.setSubsidiaryCompany(subsidiaryCompanyIdField.getValue() == null ? null :
                 (Company) getDataBaseService().findByFullName(subsidiaryCompanyIdField.getValue().toString(), Company.class));
 
@@ -104,8 +84,8 @@ public class SubsidiaryView extends BaseView {
     }
 
     private void createEditFields() {
-        subsidiaryCompanyIdField = createCompanyCombo("subsidiaryCompany.subsidiary");
-        parentCompanyIdField = createCompanyCombo("parentCompany.subsidiary");
+        subsidiaryCompanyIdField = createCombo("subsidiary.subsidiaryCompany", createStringContainer("Company", "fullName"));
+        parentCompanyIdField = createCombo("subsidiary.parentCompany", createStringContainer("Company", "fullName"));
     }
 
 

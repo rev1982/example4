@@ -44,7 +44,19 @@ public class DataBaseService {
         return dao.findByFullName(fullName, classs);
     }
 
+    public DomainEntity findById(Long id, Class classs){
+        return dao.findById(id, classs);
+    }
+
     public void update(DomainEntity domainEntity){
         dao.update(domainEntity);
+    }
+
+    public List<String> getAllStringColumnValues(String tableName, String columnName){
+        return dao.getAllStringColumnValues(tableName, columnName);
+    }
+
+    public List<Long> getAllLongColumnValues(String tableName, String columnName){
+        return dao.getAllLongColumnValues(tableName, columnName);
     }
 }

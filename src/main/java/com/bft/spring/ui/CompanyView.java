@@ -103,15 +103,6 @@ public class CompanyView extends BaseView {
         return container1;
     }
 
-    private BeanItemContainer<String> createSubdivisionPUStringContainer() {
-        List<SubdivisionPU> result = getDataBaseService().findAll(SubdivisionPU.class);
-        BeanItemContainer<String> container = new BeanItemContainer<>(String.class);
-        for (SubdivisionPU s : result) {
-            container.addItem(s.getName());
-        }
-        return container;
-    }
-
     private ComboBox createTimeZoneCombo() {
         ComboBox timezoneCombo = new ComboBox(getMessage("company.timeZone"));
         timezoneCombo.setContainerDataSource(createTimeZoneStringContainer());
@@ -122,21 +113,6 @@ public class CompanyView extends BaseView {
         ComboBox timeCombo = new ComboBox(name);
         timeCombo.setContainerDataSource(getTimeContainer());
         return timeCombo;
-    }
-
-    private ComboBox createActualCombo() {
-        ComboBox timeCombo = new ComboBox(getMessage("company.actual"));
-        BeanItemContainer<String> container = new BeanItemContainer<>(String.class);
-        container.addItem("no");
-        container.addItem("yes");
-        timeCombo.setContainerDataSource(container);
-        return timeCombo;
-    }
-
-    private ComboBox createSubdivisionCombo() {
-        ComboBox timezoneCombo = new ComboBox(getMessage("company.subdivisionPU"));
-        timezoneCombo.setContainerDataSource(createSubdivisionPUStringContainer());
-        return timezoneCombo;
     }
 
     private void updateEditPanelFields() {
@@ -194,7 +170,7 @@ public class CompanyView extends BaseView {
         kppField = createTextField(getMessage("company.kpp"));
         fiasField = createTextField(getMessage("company.fias"));
         phoneField = createTextField(getMessage("company.phone"));
-        actualCombo = createActualCombo();
+        actualCombo = createCombo("company.actual", createBooleanStringContainer());
         vipField = createTextField(getMessage("company.vip"));
         timezoneCombo = createTimeZoneCombo();
         workFromField = createTimeCombo(getMessage("company.workFrom"));
@@ -202,7 +178,7 @@ public class CompanyView extends BaseView {
         lunchFromField = createTimeCombo(getMessage("company.lunchFrom"));
         lunchUntilField = createTimeCombo(getMessage("company.lunchUntil"));
         subdivisionDeIdField = createTextField(getMessage("company.subdivisionDeId"));
-        subdivisionPUField = createSubdivisionCombo();
+        subdivisionPUField = createCombo("company.subdivisionPU", createStringContainer("SubdivisionPU", "name"));
         noteField = createTextField(getMessage("company.note"));
     }
 
