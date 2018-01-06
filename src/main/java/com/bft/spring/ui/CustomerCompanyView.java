@@ -3,12 +3,10 @@ package com.bft.spring.ui;
 /**
  * Created by rev on 06.01.2018.
  */
-import com.bft.spring.model.Company;
 import com.bft.spring.model.Contract;
 import com.bft.spring.model.CustomerCompany;
 import com.bft.spring.model.Subsidiary;
 import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Component;
 
@@ -86,8 +84,8 @@ public class CustomerCompanyView extends BaseView {
     }
 
     private void createEditFields() {
-        subsidiaryIdField = createCombo("CustomerCompany.subsidiaryId", createIdContainer("Subsidiary", "id"));
-        contractIdField = createCombo("CustomerCompany.contractId", createIdContainer("Contract",  "id"));
+        subsidiaryIdField = createCombo("CustomerCompany.subsidiaryId", createIdContainer(Subsidiary.class.getSimpleName(), "id"));
+        contractIdField = createCombo("CustomerCompany.contractId", createIdContainer(Contract.class.getSimpleName(),  "id"));
     }
 
 

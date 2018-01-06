@@ -178,7 +178,7 @@ public class CompanyView extends BaseView {
         lunchFromField = createTimeCombo(getMessage("company.lunchFrom"));
         lunchUntilField = createTimeCombo(getMessage("company.lunchUntil"));
         subdivisionDeIdField = createTextField(getMessage("company.subdivisionDeId"));
-        subdivisionPUField = createCombo("company.subdivisionPU", createStringContainer("SubdivisionPU", "name"));
+        subdivisionPUField = createCombo("company.subdivisionPU", createStringContainer(SubdivisionPU.class.getSimpleName(), "name"));
         noteField = createTextField(getMessage("company.note"));
     }
 

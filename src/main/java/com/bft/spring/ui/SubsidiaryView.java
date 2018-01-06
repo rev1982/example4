@@ -84,8 +84,8 @@ public class SubsidiaryView extends BaseView {
     }
 
     private void createEditFields() {
-        subsidiaryCompanyIdField = createCombo("subsidiary.subsidiaryCompany", createStringContainer("Company", "fullName"));
-        parentCompanyIdField = createCombo("subsidiary.parentCompany", createStringContainer("Company", "fullName"));
+        subsidiaryCompanyIdField = createCombo("subsidiary.subsidiaryCompany", createStringContainer(Company.class.getSimpleName(), "fullName"));
+        parentCompanyIdField = createCombo("subsidiary.parentCompany", createStringContainer(Company.class.getSimpleName(), "fullName"));
     }
 
 

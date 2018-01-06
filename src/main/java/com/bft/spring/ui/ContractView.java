@@ -112,17 +112,17 @@ public class ContractView extends BaseView {
     }
 
     private void createEditFields() {
-        customerCompanyIdField = createCombo("contract.customerCompany", createStringContainer("Company", "fullName"));
+        customerCompanyIdField = createCombo("contract.customerCompany", createStringContainer(Company.class.getSimpleName(), "fullName"));
         contractDateField = new DateField("contract.date");
         numberField = new TextField(getMessage("contract.number"));
         puNumberField = new TextField(getMessage("contract.puNumber"));
         statusField = new TextField(getMessage("contract.status"));
         puProjectField = new TextField(getMessage("contract.puProject"));
-        subdivisionPuIdField = createCombo("contract.subdivisionPu", createStringContainer("SubdivisionPU", "name"));
+        subdivisionPuIdField = createCombo("contract.subdivisionPu", createStringContainer(SubdivisionPU.class.getSimpleName(), "name"));
         validFromField = new DateField(getMessage("contract.validFrom"));
         validUntilField = new DateField(getMessage("contract.validUntil"));
         isValidField = createCombo("contract.isValid", createBooleanStringContainer());
-        contractTypeIdField = createCombo("contract.contractType", createStringContainer("ContractType", "name"));
+        contractTypeIdField = createCombo("contract.contractType", createStringContainer(ContractType.class.getSimpleName(), "name"));
     }
 
 

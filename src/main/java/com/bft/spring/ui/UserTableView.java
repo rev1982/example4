@@ -111,7 +111,7 @@ public class UserTableView extends BaseView {
         icqField = createTextField(getMessage("user.icq"));
         positionField = createTextField(getMessage("user.position"));
         blockingCauseField = createTextField(getMessage("user.blockingCause"));
-        companyIdField = createCombo("user.company", createStringContainer("Company", "fullName"));
+        companyIdField = createCombo("user.company", createStringContainer(Company.class.getSimpleName(), "fullName"));
     }
 
 }
