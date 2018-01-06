@@ -34,7 +34,6 @@ dependencies {
 	compile 'org.hibernate:hibernate-core:4.3.6.Final'
 	compile 'org.postgresql:postgresql:9.2-1003-jdbc4'
 	compile 'com.google.guava:guava:19.0'
-	compile('com.vaadin:vaadin-spring-boot-starter:1.2.0')
 
 }
 

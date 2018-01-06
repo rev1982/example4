@@ -8,9 +8,7 @@ import com.bft.spring.service.DataBaseService;
 import com.bft.spring.ui.MainLayout;
 import com.vaadin.annotations.Theme;
 import com.vaadin.server.VaadinRequest;
-import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.ui.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -21,7 +19,6 @@ import java.time.LocalTime;
 /**
  * Created by rev on 21.12.2017.
  */
-@SpringUI
 @Theme("valo")
 public class VaadinUI extends UI {
 
