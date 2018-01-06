@@ -5,6 +5,11 @@
              version="2.0">
     <persistence-unit name="persistenceManager">
         <class>com.bft.spring.generatedmodel.UserTableEntity</class>
+        <class>com.bft.spring.generatedmodel.ContractEntity</class>
+        <class>com.bft.spring.generatedmodel.ContractTypeEntity</class>
+        <class>com.bft.spring.generatedmodel.CustomerCompanyEntity</class>
+        <class>com.bft.spring.generatedmodel.CustomerCompanyUserEntity</class>
+        <class>com.bft.spring.generatedmodel.SubsidiaryEntity</class>
         <properties>
             <property name="eclipselink.jdbc.url" value="jdbc:postgresql://localhost:5432/test1"/>
             <property name="eclipselink.jdbc.driver" value="org.postgresql.Driver"/>

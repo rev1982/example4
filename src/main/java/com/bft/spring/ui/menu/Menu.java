@@ -40,6 +40,8 @@ public class Menu {
 
     @Autowired
     Messages messageSource;
+    @Autowired
+    SubsidiaryView subsidiaryView;
 
 
     public void build(Layout treeLayout, Layout contentViewLayout) {
@@ -82,6 +84,7 @@ public class Menu {
         tryAddForm(CompanyView.class, companyView, companyGroup);
         tryAddForm(SubdivisionPUView.class, subdivisionPUView, companyGroup);
         tryAddForm(UserTableView.class, userTableView, companyGroup);
+        tryAddForm(SubsidiaryView.class, subsidiaryView, companyGroup);
 
         menuSet.addSubgroup(companyGroup);
 

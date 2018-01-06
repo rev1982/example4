@@ -47,4 +47,52 @@ BLOCKING_CAUSE VARCHAR);
 alter table USER_TABLE add constraint fk_3 foreign key (COMPANY_ID) REFERENCES COMPANY (ID);
 
 
+create table contract_type(
+id bigint PRIMARY KEY,
+name VARCHAR );
+
+CREATE TABLE contract(
+id bigint PRIMARY KEY,
+customer_company_id bigint,
+contract_date DATE,
+number VARCHAR,
+pu_number VARCHAR,
+status VARCHAR,
+pu_project VARCHAR ,
+subdivision_pu_id bigint,
+valid_from date,
+valid_until date,
+is_valid boolean,
+contract_type_id bigint
 );
+
+alter table contract add constraint fk_4 foreign key (customer_company_id) REFERENCES COMPANY (ID);
+alter table contract add constraint fk_5 foreign key (subdivision_pu_id) REFERENCES subdivision_pu (ID);
+alter table contract add constraint fk_6 foreign key (contract_type_id) REFERENCES contract_type (ID);
+
+create table subsidiary(
+id bigint PRIMARY KEY,
+subsidiary_company_id bigint,
+parent_company_id bigint
+);
+
+alter table subsidiary add constraint fk_7 foreign key (subsidiary_company_id) REFERENCES COMPANY (ID);
+alter table subsidiary add constraint fk_8 foreign key (parent_company_id) REFERENCES COMPANY (ID);
+
+create table customer_company(
+id bigint PRIMARY KEY,
+contract_id bigint,
+subsidiary_id bigint
+);
+
+alter table customer_company add constraint fk_9 foreign key (contract_id) REFERENCES contract (ID);
+alter table customer_company add constraint fk_10 foreign key (subsidiary_id) REFERENCES subsidiary (ID);
+
+create table customer_company_user(
+id bigint PRIMARY KEY,
+customer_company_id bigint,
+user_id bigint
+);
+
+alter table customer_company_user add constraint fk_11 foreign key (customer_company_id) REFERENCES customer_company (ID);
+alter table customer_company_user add constraint fk_12 foreign key (user_id) REFERENCES user_table (ID);
