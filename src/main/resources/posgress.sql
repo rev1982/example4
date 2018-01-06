@@ -96,3 +96,62 @@ user_id bigint
 
 alter table customer_company_user add constraint fk_11 foreign key (customer_company_id) REFERENCES customer_company (ID);
 alter table customer_company_user add constraint fk_12 foreign key (user_id) REFERENCES user_table (ID);
+
+create table product(
+id bigint PRIMARY KEY,
+name VARCHAR,
+email VARCHAR
+);
+
+create table unit(
+id bigint PRIMARY KEY,
+name VARCHAR,
+product_id bigint,
+removedFromBalance boolean
+);
+
+alter table unit add constraint fk_13 foreign key (product_id) REFERENCES product (ID);
+
+create table contract_subject(
+id bigint PRIMARY KEY,
+product_id bigint,
+contract_id bigint
+);
+
+alter table contract_subject add constraint fk_14 foreign key (product_id) REFERENCES product (ID);
+alter table contract_subject add constraint fk_15 foreign key (contract_id) REFERENCES contract (ID);
+
+create table sold_unit(
+id bigint PRIMARY KEY,
+unit_id bigint,
+contract_subject_id bigint
+);
+
+alter table sold_unit add constraint fk_16 foreign key (unit_id) REFERENCES unit (ID);
+alter table sold_unit add constraint fk_17 foreign key (contract_subject_id) REFERENCES contract_subject (ID);
+
+create table priority(
+id bigint PRIMARY KEY,
+name VARCHAR
+);
+
+create table service(
+id bigint PRIMARY KEY,
+name VARCHAR,
+default_val VARCHAR
+);
+
+
+create table sla(
+id bigint PRIMARY KEY,
+customer_company_id bigint,
+contract_subject_id bigint,
+service_id bigint,
+priority_id bigint,
+sla_sec bigint
+);
+
+alter table sla add constraint fk_18 foreign key (customer_company_id) REFERENCES customer_company (ID);
+alter table sla add constraint fk_19 foreign key (contract_subject_id) REFERENCES contract_subject (ID);
+alter table sla add constraint fk_20 foreign key (service_id) REFERENCES service (ID);
+alter table sla add constraint fk_21 foreign key (priority_id) REFERENCES priority (ID);
