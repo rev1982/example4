@@ -88,7 +88,7 @@ public class ContractView extends BaseView {
         subdivisionPuIdField.setValue(contract.getSubdivisionPU() != null ? contract.getSubdivisionPU().getName() : "");
         validFromField.setValue(contract.getValidFrom());
         validUntilField.setValue(contract.getValidUntil());
-        isValidField.setValue(contract.getIsValid() != null ? contract.getIsValid() : "");
+        isValidField.setValue(contract.getIsValid() != null ? contract.getIsValid().toString() : "");
         contractTypeIdField.setValue(contract.getContractType() != null ? contract.getContractType().getName() : "");
     }
 

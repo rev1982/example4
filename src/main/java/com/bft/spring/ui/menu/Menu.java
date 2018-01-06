@@ -50,6 +50,10 @@ public class Menu {
     CustomerCompanyView customerCompanyView;
     @Autowired
     CustomerCompanyUserView customerCompanyUserView;
+    @Autowired
+    ProductView productView;
+    @Autowired
+    UnitView unitView;
 
 
     public void build(Layout treeLayout, Layout contentViewLayout) {
@@ -104,6 +108,12 @@ public class Menu {
         tryAddForm(ContractView.class, contractView , contractGroup);
         tryAddForm(CustomerCompanyView.class, customerCompanyView , contractGroup);
         menuSet.addSubgroup(contractGroup);
+
+        MenuGroup productGroup = tryAddGroup(messageSource.getMessage("menu.Product"), menuSet);
+        tryAddForm(ProductView.class, productView, productGroup);
+        tryAddForm(UnitView.class, unitView, productGroup);
+
+        menuSet.addSubgroup(productGroup);
 
     }
 

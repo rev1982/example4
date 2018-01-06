@@ -27,7 +27,7 @@ public class Unit extends DomainEntity<Long> {
         this.name = name;
     }
 
-    public Boolean isRemovedFromBalance() {
+    public Boolean getRemovedFromBalance() {
         return removedFromBalance;
     }
 

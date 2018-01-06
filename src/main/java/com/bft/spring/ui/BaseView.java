@@ -140,8 +140,8 @@ public class BaseView<T extends IDomainEntity> extends ViewInit {
 
     public BeanItemContainer<String> createBooleanStringContainer() {
         BeanItemContainer<String> container = new BeanItemContainer<>(String.class);
-        container.addItem("no");
-        container.addItem("yes");
+        container.addItem("false");
+        container.addItem("true");
         return container;
     }
 
