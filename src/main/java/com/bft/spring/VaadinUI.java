@@ -29,12 +29,6 @@ public class VaadinUI extends UI {
 
     public  static ApplicationContext context = new AnnotationConfigApplicationContext(HibernateConfiguration.class);
 
-    @Autowired
-    private DataBaseService dataBaseService;
-
-    @Autowired
-    MainLayout mainLayout;
-
     @Override
     protected void init(VaadinRequest vaadinRequest) {
 
