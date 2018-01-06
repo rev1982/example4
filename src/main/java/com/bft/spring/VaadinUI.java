@@ -27,7 +27,7 @@ public class VaadinUI extends UI {
 
     public static boolean created;
 
-    ApplicationContext context = new AnnotationConfigApplicationContext(HibernateConfiguration.class);
+    public  static ApplicationContext context = new AnnotationConfigApplicationContext(HibernateConfiguration.class);
 
     @Autowired
     private DataBaseService dataBaseService;
@@ -37,11 +37,12 @@ public class VaadinUI extends UI {
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
-//        if (!created) {//TODO убрать
-//            addCompany("tz3", "sPU3", "company3");
-//            addCompany("tz4", "sPU4", "company4");
-//            created = true;
-//        }
+
+        if (!created) {//TODO убрать
+            addCompany("tz3", "sPU3", "company3");
+            addCompany("tz4", "sPU4", "company4");
+            created = true;
+        }
 
 
         setSizeFull();
@@ -51,6 +52,7 @@ public class VaadinUI extends UI {
     }
 
     private void addCompany(String timeZoneName, String subdivisionPUName, String companyName) {
+        DataBaseService dataBaseService = (DataBaseService) context.getBean("dataBaseService");
         TimeZone timeZone = (TimeZone) dataBaseService.findByName(timeZoneName, TimeZone.class);
         if (timeZone == null) {
             timeZone = new TimeZone();
