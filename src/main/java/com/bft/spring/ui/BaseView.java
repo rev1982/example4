@@ -141,13 +141,7 @@ public class BaseView<T extends IDomainEntity> extends ViewInit {
         return container;
     }
 
-    public BeanItemContainer<String> createStringContainer(String tableName, String columnName) {
-        BeanItemContainer<String> container = new BeanItemContainer<>(String.class);
-        container.addAll(dataBaseService.getAllStringColumnValues(tableName, columnName));
-        return container;
-    }
-
-    public DomainEntity<Long> getValueById(Object obj, Class classs){
+    public DomainEntity<Long> getEntityById(Object obj, Class classs){
         return obj == null ? null : getDataBaseService().findById((Long) obj, classs);
     }
 

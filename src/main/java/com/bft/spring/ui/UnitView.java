@@ -80,7 +80,7 @@ public class UnitView extends BaseView {
     private void updateFields() {
         unit.setName(nameField.getValue());
         unit.setRemovedFromBalance(removedFromBalanceField.getValue() == null ? null : Boolean.valueOf(removedFromBalanceField.getValue().toString()));
-        unit.setProduct((Product)getValueById(productIdField.getValue(), Product.class));
+        unit.setProduct((Product)getEntityById(productIdField.getValue(), Product.class));
     }
 
     private void createEditFields() {

@@ -76,9 +76,9 @@ public class CustomerCompanyView extends BaseView {
     }
 
     private void updateFields() {
-        customerCompany.setContract((Contract)getValueById(contractIdField.getValue(), Contract.class));
+        customerCompany.setContract((Contract)getEntityById(contractIdField.getValue(), Contract.class));
 
-        customerCompany.setSubsidiary((Subsidiary)getValueById(subsidiaryIdField.getValue(), Subsidiary.class));
+        customerCompany.setSubsidiary((Subsidiary)getEntityById(subsidiaryIdField.getValue(), Subsidiary.class));
     }
 
     private void createEditFields() {

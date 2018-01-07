@@ -93,19 +93,19 @@ public class ContractView extends BaseView {
     }
 
     private void updateFields() {
-        contract.setCustomerCompany((Company) getValueById(customerCompanyIdField.getValue(), Company.class));
+        contract.setCustomerCompany((Company) getEntityById(customerCompanyIdField.getValue(), Company.class));
         contract.setContractDate(contractDateField.getValue() != null ?
                 new Date(contractDateField.getValue().getTime()) : null);
         contract.setNumber(numberField.getValue());
         contract.setPuNumber(puNumberField.getValue());
         contract.setStatus(statusField.getValue());
         contract.setPuProject(puProjectField.getValue());
-        contract.setSubdivisionPU((SubdivisionPU) getValueById(subdivisionPuIdField.getValue(), SubdivisionPU.class));
+        contract.setSubdivisionPU((SubdivisionPU) getEntityById(subdivisionPuIdField.getValue(), SubdivisionPU.class));
         contract.setValidFrom(validFromField.getValue() != null ? new Date(validFromField.getValue().getTime()) : null);
         contract.setValidUntil(validUntilField.getValue() != null ?
                 new Date(validUntilField.getValue().getTime()) : null);
         contract.setIsValid(isValidField.getValue() != null ? Boolean.valueOf(isValidField.getValue().toString()) : null);
-        contract.setContractType((ContractType) getValueById(contractTypeIdField.getValue(), ContractType.class));
+        contract.setContractType((ContractType) getEntityById(contractTypeIdField.getValue(), ContractType.class));
     }
 
     private void createEditFields() {

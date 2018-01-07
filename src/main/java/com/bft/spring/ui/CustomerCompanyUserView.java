@@ -73,9 +73,9 @@ public class CustomerCompanyUserView extends BaseView {
     }
 
     private void updateFields() {
-        customerCompanyUser.setUser((UserTable)getValueById(userIdField.getValue(), UserTable.class));
+        customerCompanyUser.setUser((UserTable)getEntityById(userIdField.getValue(), UserTable.class));
 
-        customerCompanyUser.setCustomerCompany((CustomerCompany)getValueById(customerCompanyIdField.getValue(), CustomerCompany.class));
+        customerCompanyUser.setCustomerCompany((CustomerCompany)getEntityById(customerCompanyIdField.getValue(), CustomerCompany.class));
     }
 
     private void createEditFields() {

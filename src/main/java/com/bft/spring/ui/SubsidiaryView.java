@@ -71,21 +71,18 @@ public class SubsidiaryView extends BaseView {
 
 
     private void updateEditPanelFields() {
-        subsidiaryCompanyIdField.setValue(subsidiary.getSubsidiaryCompany() != null ? subsidiary.getSubsidiaryCompany().getFullName() : "");
-        parentCompanyIdField.setValue(subsidiary.getParentCompany() != null ? subsidiary.getParentCompany().getFullName() : "");
+        subsidiaryCompanyIdField.setValue(getNotNullId(subsidiary.getSubsidiaryCompany()));
+        parentCompanyIdField.setValue(getNotNullId(subsidiary.getParentCompany()));
     }
 
     private void updateFields() {
-        subsidiary.setSubsidiaryCompany(subsidiaryCompanyIdField.getValue() == null ? null :
-                (Company) getDataBaseService().findByFullName(subsidiaryCompanyIdField.getValue().toString(), Company.class));
-
-        subsidiary.setParentCompany(parentCompanyIdField.getValue() == null ? null :
-                (Company) getDataBaseService().findByFullName(parentCompanyIdField.getValue().toString(), Company.class));
+        subsidiary.setSubsidiaryCompany((Company) getEntityById(subsidiaryCompanyIdField.getValue(), Company.class));
+        subsidiary.setParentCompany((Company) getEntityById(parentCompanyIdField.getValue(), Company.class));
     }
 
     private void createEditFields() {
-        subsidiaryCompanyIdField = createCombo("subsidiary.subsidiaryCompany", createStringContainer(Company.class.getSimpleName(), "fullName"));
-        parentCompanyIdField = createCombo("subsidiary.parentCompany", createStringContainer(Company.class.getSimpleName(), "fullName"));
+        subsidiaryCompanyIdField = createCombo("subsidiary.subsidiaryCompany", createIdContainer(Company.class.getSimpleName()));
+        parentCompanyIdField = createCombo("subsidiary.parentCompany", createIdContainer(Company.class.getSimpleName()));
     }
 
 

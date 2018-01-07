@@ -88,13 +88,12 @@ public class UserTableView extends BaseView {
         icqField.setValue(notNullVal(userTable.getIcq()));
         positionField.setValue(notNullVal(userTable.getPosition()));
         blockingCauseField.setValue(notNullVal(userTable.getBlockingCause()));
-        companyIdField.setValue(userTable.getCompany() != null ? userTable.getCompany().getFullName() : "");
+        companyIdField.setValue(getNotNullId(userTable.getCompany()));
     }
 
     private void updateUserTableFields() {
         userTable.setBlockingCause(blockingCauseField.getValue());
-        userTable.setCompany(companyIdField.getValue() == null ? null :
-                (Company) getDataBaseService().findByFullName(companyIdField.getValue().toString(), Company.class));
+        userTable.setCompany((Company) getEntityById(companyIdField.getValue(), Company.class));
         userTable.setIcq(icqField.getValue());
         userTable.setMobilePhone(mobilePhoneField.getValue());
         userTable.setWorkPhone(workPhoneField.getValue());
@@ -111,7 +110,7 @@ public class UserTableView extends BaseView {
         icqField = createTextField(getMessage("user.icq"));
         positionField = createTextField(getMessage("user.position"));
         blockingCauseField = createTextField(getMessage("user.blockingCause"));
-        companyIdField = createCombo("user.company", createStringContainer(Company.class.getSimpleName(), "fullName"));
+        companyIdField = createCombo("user.company", createIdContainer(Company.class.getSimpleName()));
     }
 
 }

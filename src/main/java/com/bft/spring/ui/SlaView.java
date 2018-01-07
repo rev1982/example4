@@ -79,10 +79,10 @@ public class SlaView extends BaseView {
     }
 
     private void updateFields() {
-        sla.setContractSubject((ContractSubject) getValueById(contractSubjectIdField.getValue(), ContractSubject.class));
-        sla.setService((Service) getValueById(serviceIdField.getValue(), Service.class));
-        sla.setPriority((Priority) getValueById(priorityIdField.getValue(), Priority.class));
-        sla.setCustomerCompany((CustomerCompany) getValueById(customerCompanyIdField.getValue(), CustomerCompany.class));
+        sla.setContractSubject((ContractSubject) getEntityById(contractSubjectIdField.getValue(), ContractSubject.class));
+        sla.setService((Service) getEntityById(serviceIdField.getValue(), Service.class));
+        sla.setPriority((Priority) getEntityById(priorityIdField.getValue(), Priority.class));
+        sla.setCustomerCompany((CustomerCompany) getEntityById(customerCompanyIdField.getValue(), CustomerCompany.class));
         sla.setSlaSec(slaSecFild.getValue() == null ? null : Long.parseLong(slaSecFild.getValue()));
     }
 

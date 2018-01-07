@@ -139,14 +139,14 @@ public class CompanyView extends BaseView {
         company.setActual(actualCombo.getValue() == null ? null :
                 Boolean.parseBoolean(actualCombo.getValue().toString()));
         company.setVip(vipField.getValue());
-        company.setTimeZone((TimeZone) getValueById(timezoneCombo.getValue(), TimeZone.class));
+        company.setTimeZone((TimeZone) getEntityById(timezoneCombo.getValue(), TimeZone.class));
         company.setWorkFrom(getTimeFromCombo(workFromField.getValue()));
         company.setWorkUntil(getTimeFromCombo(workUntilField.getValue()));
         company.setLunchFrom(getTimeFromCombo(lunchFromField.getValue()));
         company.setLunchUntil(getTimeFromCombo(lunchUntilField.getValue()));
         company.setSubdivisionDeId(subdivisionDeIdField.getValue() == null || subdivisionDeIdField.getValue().length() == 0 ?
                 null : Long.parseLong(subdivisionDeIdField.getValue()));
-        company.setSubdivisionPU((SubdivisionPU)getValueById(subdivisionPUIdField.getValue(), SubdivisionPU.class));
+        company.setSubdivisionPU((SubdivisionPU)getEntityById(subdivisionPUIdField.getValue(), SubdivisionPU.class));
         company.setNote(noteField.getValue());
     }
 

@@ -70,8 +70,8 @@ public class SoldUnitView extends BaseView {
     }
 
     private void updateFields() {
-        soldUnit.setContractSubject((ContractSubject) getValueById(contractSubjectIdField.getValue(), ContractSubject.class));
-        soldUnit.setUnit((com.bft.spring.model.Unit) getValueById(unitIdField.getValue(), com.bft.spring.model.Unit.class));
+        soldUnit.setContractSubject((ContractSubject) getEntityById(contractSubjectIdField.getValue(), ContractSubject.class));
+        soldUnit.setUnit((com.bft.spring.model.Unit) getEntityById(unitIdField.getValue(), com.bft.spring.model.Unit.class));
     }
 
     private void createEditFields() {

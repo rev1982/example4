@@ -72,8 +72,8 @@ public class ContractSubjectView extends BaseView {
     }
 
     private void updateFields() {
-        contractSubject.setProduct((Product)getValueById(productIdField.getValue(),Product.class));
-        contractSubject.setContract((Contract)getValueById(contractIdField.getValue(),Contract.class));
+        contractSubject.setProduct((Product)getEntityById(productIdField.getValue(),Product.class));
+        contractSubject.setContract((Contract)getEntityById(contractIdField.getValue(),Contract.class));
     }
 
     private void createEditFields() {

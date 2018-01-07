@@ -51,10 +51,6 @@ public class DaoImpl extends AbstractDao{
         getSession().update(domainEntity);
     }
 
-    public List<String> getAllStringColumnValues(String tableName, String columnName){
-        return getSession().createQuery("SELECT mt." + columnName + " FROM " + tableName + " mt").list();
-    }
-
     public List<Long> getAllLongColumnValues(String tableName, String columnName){
         return getSession().createQuery("SELECT mt." + columnName + " FROM " + tableName + " mt").list();
     }

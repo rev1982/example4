@@ -52,10 +52,6 @@ public class DataBaseService {
         dao.update(domainEntity);
     }
 
-    public List<String> getAllStringColumnValues(String tableName, String columnName){
-        return dao.getAllStringColumnValues(tableName, columnName);
-    }
-
     public List<Long> getAllLongColumnValues(String tableName, String columnName){
         return dao.getAllLongColumnValues(tableName, columnName);
     }
