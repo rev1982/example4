@@ -25,6 +25,8 @@ public class Company extends DomainEntity<Long> {
     private String fias;
     @Column(name = "phone")
     private String phone;
+    @Column(name = "email")
+    private String email;
     @Column(name = "actual")
     private Boolean actual;
     @Column(name = "vip")
@@ -192,5 +194,13 @@ public class Company extends DomainEntity<Long> {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

@@ -27,7 +27,6 @@ public class BaseView<T extends IDomainEntity> extends ViewInit {
     private Messages messageSource;
 
     protected BeanItemContainer<T> container;
-    private BeanItemContainer<String> timeContainer;
     protected Button buttonUpdate;
     protected Button buttonCreate;
     protected Button buttonDelete;
@@ -67,21 +66,6 @@ public class BaseView<T extends IDomainEntity> extends ViewInit {
         container.addAll(dataBaseService.findAll(clazz));
         container.sort(new String[]{"id"}, new boolean[]{false});
         return container;
-    }
-
-    private BeanItemContainer<String> createTimeContainer() {
-        List<String> times = new ArrayList<>();
-        for (int i = 0; i < 24; i++) {
-            times.add(i < 10 ? "0" + i + ":00" : i + ":00");
-            times.add(i < 10 ? "0" + i + ":30" : i + ":30");
-        }
-        timeContainer = new BeanItemContainer<>(String.class);
-        timeContainer.addAll(times);
-        return timeContainer;
-    }
-
-    public BeanItemContainer<String> getTimeContainer() {
-        return timeContainer == null ? createTimeContainer() : timeContainer;
     }
 
     public String notNullVal(String s) {

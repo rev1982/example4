@@ -8,6 +8,7 @@ import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -28,6 +29,7 @@ public class CompanyView extends BaseView {
     private TextField kppField;
     private TextField fiasField;
     private TextField phoneField;
+    private TextField emailField;
     private ComboBox actualCombo;
     private TextField vipField;
     private ComboBox timezoneCombo;
@@ -36,25 +38,27 @@ public class CompanyView extends BaseView {
     private ComboBox lunchFromField;
     private ComboBox lunchUntilField;
     private TextField subdivisionDeIdField;
-    private ComboBox subdivisionPUField;
+    private ComboBox subdivisionPUIdField;
     private TextField noteField;
+    private BeanItemContainer<String> timeContainer;
 
 
     public VerticalSplitPanel initContent() {
+        initTimeContainer();
         createEditFields();
 
         VerticalLayout editLayout = new VerticalLayout(new HorizontalLayout(
                 new Component[]{shortNameField, fullNameField, legalAdressField, actualAdressField}),
-                new HorizontalLayout(new Component[]{innField, kppField, fiasField, phoneField, actualCombo, vipField}),
+                new HorizontalLayout(new Component[]{innField, kppField, fiasField, phoneField, emailField, actualCombo, vipField}),
                 new HorizontalLayout(new Component[]{timezoneCombo, workFromField, workUntilField, lunchFromField, lunchUntilField}),
-                new HorizontalLayout(new Component[]{subdivisionDeIdField, subdivisionPUField, noteField}));
+                new HorizontalLayout(new Component[]{subdivisionDeIdField, subdivisionPUIdField, noteField}));
 
         container = createContainer(Company.class);
 
         Table table = createTable(getMessage("company.Company"), container, new
                 Object[]{"id", "shortName", "fullName", "legalAdress", "actualAdress", "inn",
                 //"kpp", "fias",
-                "phone", "actual",
+                "phone", "email", "actual",
                 //"vip", "timeZone", "workFrom", "workUntil", "lunchFrom", "lunchUntil", "subdivisionDeId", "subdivisionPU",
                 "note"});
         table.setSizeFull();
@@ -94,24 +98,9 @@ public class CompanyView extends BaseView {
         return verticalSplitPanel;
     }
 
-    private BeanItemContainer<String> createTimeZoneStringContainer() {
-        List<TimeZone> result = getDataBaseService().findAll(TimeZone.class);
-        BeanItemContainer<String> container1 = new BeanItemContainer<>(String.class);
-        for (TimeZone t : result) {
-            container1.addItem(t.getName());
-        }
-        return container1;
-    }
-
-    private ComboBox createTimeZoneCombo() {
-        ComboBox timezoneCombo = new ComboBox(getMessage("company.timeZone"));
-        timezoneCombo.setContainerDataSource(createTimeZoneStringContainer());
-        return timezoneCombo;
-    }
-
     private ComboBox createTimeCombo(String name) {
         ComboBox timeCombo = new ComboBox(name);
-        timeCombo.setContainerDataSource(getTimeContainer());
+        timeCombo.setContainerDataSource(timeContainer);
         return timeCombo;
     }
 
@@ -124,15 +113,16 @@ public class CompanyView extends BaseView {
         kppField.setValue(notNullVal(company.getKpp()));
         fiasField.setValue(notNullVal(company.getFias()));
         phoneField.setValue(notNullVal(company.getPhone()));
+        emailField.setValue(notNullVal(company.getEmail()));
         actualCombo.setValue(company.getActual() != null ? company.getActual().toString() : null);
         vipField.setValue(notNullVal(company.getVip()));
-        timezoneCombo.setValue(company.getTimeZone() != null ? company.getTimeZone().getName() : "");
+        timezoneCombo.setValue(getNotNullId(company.getTimeZone()));
         workFromField.setValue(getTimeVal(company.getWorkFrom()));
         workUntilField.setValue(getTimeVal(company.getWorkUntil()));
         lunchFromField.setValue(getTimeVal(company.getLunchFrom()));
         lunchUntilField.setValue(getTimeVal(company.getLunchUntil()));
         subdivisionDeIdField.setValue(company.getSubdivisionDeId() != null ? company.getSubdivisionDeId().toString() : "");
-        subdivisionPUField.setValue(company.getSubdivisionPU() != null ? company.getSubdivisionPU().getName() : "");
+        subdivisionPUIdField.setValue(getNotNullId(company.getSubdivisionPU()));
         noteField.setValue(notNullVal(company.getNote()));
     }
 
@@ -145,19 +135,18 @@ public class CompanyView extends BaseView {
         company.setKpp(kppField.getValue());
         company.setFias(fiasField.getValue());
         company.setPhone(phoneField.getValue());
+        company.setEmail(emailField.getValue());
         company.setActual(actualCombo.getValue() == null ? null :
                 Boolean.parseBoolean(actualCombo.getValue().toString()));
         company.setVip(vipField.getValue());
-        company.setTimeZone(timezoneCombo.getValue() == null ? null :
-                (TimeZone) getDataBaseService().findByName(timezoneCombo.getValue().toString(), TimeZone.class));
+        company.setTimeZone((TimeZone) getValueById(timezoneCombo.getValue(), TimeZone.class));
         company.setWorkFrom(getTimeFromCombo(workFromField.getValue()));
         company.setWorkUntil(getTimeFromCombo(workUntilField.getValue()));
         company.setLunchFrom(getTimeFromCombo(lunchFromField.getValue()));
         company.setLunchUntil(getTimeFromCombo(lunchUntilField.getValue()));
         company.setSubdivisionDeId(subdivisionDeIdField.getValue() == null || subdivisionDeIdField.getValue().length() == 0 ?
                 null : Long.parseLong(subdivisionDeIdField.getValue()));
-        company.setSubdivisionPU(subdivisionPUField.getValue() == null ? null :
-                (SubdivisionPU) getDataBaseService().findByName(subdivisionPUField.getValue().toString(), SubdivisionPU.class));
+        company.setSubdivisionPU((SubdivisionPU)getValueById(subdivisionPUIdField.getValue(), SubdivisionPU.class));
         company.setNote(noteField.getValue());
     }
 
@@ -170,16 +159,27 @@ public class CompanyView extends BaseView {
         kppField = createTextField(getMessage("company.kpp"));
         fiasField = createTextField(getMessage("company.fias"));
         phoneField = createTextField(getMessage("company.phone"));
+        emailField = createTextField(getMessage("company.email"));
         actualCombo = createCombo("company.actual", createBooleanStringContainer());
         vipField = createTextField(getMessage("company.vip"));
-        timezoneCombo = createTimeZoneCombo();
+        timezoneCombo = createCombo("company.timeZone",createIdContainer(TimeZone.class.getSimpleName(), "id"));
         workFromField = createTimeCombo(getMessage("company.workFrom"));
         workUntilField = createTimeCombo(getMessage("company.workUntil"));
         lunchFromField = createTimeCombo(getMessage("company.lunchFrom"));
         lunchUntilField = createTimeCombo(getMessage("company.lunchUntil"));
         subdivisionDeIdField = createTextField(getMessage("company.subdivisionDeId"));
-        subdivisionPUField = createCombo("company.subdivisionPU", createStringContainer(SubdivisionPU.class.getSimpleName(), "name"));
+        subdivisionPUIdField = createCombo("company.subdivisionPU", createIdContainer(SubdivisionPU.class.getSimpleName(),"id"));
         noteField = createTextField(getMessage("company.note"));
+    }
+
+    private void initTimeContainer() {
+        List<String> times = new ArrayList<>();
+        for (int i = 0; i < 24; i++) {
+            times.add(i < 10 ? "0" + i + ":00" : i + ":00");
+            times.add(i < 10 ? "0" + i + ":30" : i + ":30");
+        }
+        timeContainer = new BeanItemContainer<>(String.class);
+        timeContainer.addAll(times);
     }
 
 }
