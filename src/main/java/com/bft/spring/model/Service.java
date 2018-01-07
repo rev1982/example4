@@ -14,7 +14,7 @@ public class Service extends DomainEntity<Long> {
     private String name;
 
     @Column(name = "default_val")
-    private String email;
+    private String defaultVal;
 
     public String getName() {
         return name;
@@ -24,12 +24,12 @@ public class Service extends DomainEntity<Long> {
         this.name = name;
     }
 
-    public String getEmail() {
-        return email;
+    public String getDefaultVal() {
+        return defaultVal;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setDefaultVal(String defaultVal) {
+        this.defaultVal = defaultVal;
     }
 }
 
