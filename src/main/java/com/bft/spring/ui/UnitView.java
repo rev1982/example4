@@ -7,7 +7,6 @@ package com.bft.spring.ui;
 
 
 import com.bft.spring.model.Product;
-import com.bft.spring.model.Unit;
 import com.vaadin.data.Property;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Component;

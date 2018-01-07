@@ -54,6 +54,10 @@ public class Menu {
     ProductView productView;
     @Autowired
     UnitView unitView;
+    @Autowired
+    ContractSubjectView contractSubjectView;
+    @Autowired
+    SoldUnitView soldUnitView;
 
 
     public void build(Layout treeLayout, Layout contentViewLayout) {
@@ -90,28 +94,33 @@ public class Menu {
         allForms.clear();
 
         menuSet = new MenuGroup("root");
+
         MenuGroup companyGroup = tryAddGroup(messageSource.getMessage("menu.company"), menuSet);
 
         tryAddForm(TimeZoneView.class, timeZoneView, companyGroup);
         tryAddForm(SubdivisionPUView.class, subdivisionPUView, companyGroup);
         tryAddForm(CompanyView.class, companyView, companyGroup);
         tryAddForm(SubsidiaryView.class, subsidiaryView, companyGroup);
-        tryAddForm(UserTableView.class, userTableView, companyGroup);
-        tryAddForm(CustomerCompanyUserView.class, customerCompanyUserView, companyGroup);
-
+        tryAddForm(CustomerCompanyView.class, customerCompanyView, companyGroup);
         menuSet.addSubgroup(companyGroup);
+
+        MenuGroup userGroup = tryAddGroup(messageSource.getMessage("menu.user"), menuSet);
+        tryAddForm(UserTableView.class, userTableView, userGroup);
+        tryAddForm(CustomerCompanyUserView.class, customerCompanyUserView, userGroup);
+        menuSet.addSubgroup(userGroup);
 
 
         MenuGroup contractGroup = tryAddGroup(messageSource.getMessage("menu.Contract"), menuSet);
 
         tryAddForm(ContractTypeView.class, contractTypeView , contractGroup);
         tryAddForm(ContractView.class, contractView , contractGroup);
-        tryAddForm(CustomerCompanyView.class, customerCompanyView , contractGroup);
+        tryAddForm(ContractSubjectView.class, contractSubjectView, contractGroup);
         menuSet.addSubgroup(contractGroup);
 
         MenuGroup productGroup = tryAddGroup(messageSource.getMessage("menu.Product"), menuSet);
         tryAddForm(ProductView.class, productView, productGroup);
         tryAddForm(UnitView.class, unitView, productGroup);
+        tryAddForm(SoldUnitView.class, soldUnitView, productGroup);
 
         menuSet.addSubgroup(productGroup);
 

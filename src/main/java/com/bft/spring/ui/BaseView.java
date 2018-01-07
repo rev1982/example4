@@ -163,4 +163,12 @@ public class BaseView<T extends IDomainEntity> extends ViewInit {
         return container;
     }
 
+    public DomainEntity<Long> getValueById(Object obj, Class classs){
+        return obj == null ? null : getDataBaseService().findById((Long) obj, classs);
+    }
+
+    public Object getNotNullId(DomainEntity<Long> domainEntity){
+        return  domainEntity == null ? "" : domainEntity.getId();
+    }
+
 }
