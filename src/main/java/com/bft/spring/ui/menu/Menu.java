@@ -58,6 +58,8 @@ public class Menu {
     ContractSubjectView contractSubjectView;
     @Autowired
     SoldUnitView soldUnitView;
+    @Autowired
+    PriorityView priorityView;
 
 
     public void build(Layout treeLayout, Layout contentViewLayout) {
@@ -121,6 +123,7 @@ public class Menu {
         tryAddForm(ProductView.class, productView, productGroup);
         tryAddForm(UnitView.class, unitView, productGroup);
         tryAddForm(SoldUnitView.class, soldUnitView, productGroup);
+        tryAddForm(PriorityView.class, priorityView, productGroup);
 
         menuSet.addSubgroup(productGroup);
 
