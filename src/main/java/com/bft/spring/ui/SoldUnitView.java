@@ -75,8 +75,8 @@ public class SoldUnitView extends BaseView {
     }
 
     private void createEditFields() {
-        contractSubjectIdField = createCombo("SoldUnit.contractSubjectId", createIdContainer(ContractSubject.class.getSimpleName(),"id"));
-        unitIdField = createCombo("SoldUnit.unitId", createIdContainer(Unit.class.getSimpleName(),"id"));
+        contractSubjectIdField = createCombo("SoldUnit.contractSubjectId", createIdContainer(ContractSubject.class.getSimpleName()));
+        unitIdField = createCombo("SoldUnit.unitId", createIdContainer(Unit.class.getSimpleName()));
     }
 
 }

@@ -77,8 +77,8 @@ public class ContractSubjectView extends BaseView {
     }
 
     private void createEditFields() {
-        productIdField = createCombo("ContractSubject.productId", createIdContainer(Product.class.getSimpleName(),"id"));
-        contractIdField = createCombo("ContractSubject.contractId", createIdContainer(Contract.class.getSimpleName(),"id"));
+        productIdField = createCombo("ContractSubject.productId", createIdContainer(Product.class.getSimpleName()));
+        contractIdField = createCombo("ContractSubject.contractId", createIdContainer(Contract.class.getSimpleName()));
     }
 
 }

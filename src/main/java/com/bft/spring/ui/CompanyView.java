@@ -162,13 +162,13 @@ public class CompanyView extends BaseView {
         emailField = createTextField(getMessage("company.email"));
         actualCombo = createCombo("company.actual", createBooleanStringContainer());
         vipField = createTextField(getMessage("company.vip"));
-        timezoneCombo = createCombo("company.timeZone",createIdContainer(TimeZone.class.getSimpleName(), "id"));
+        timezoneCombo = createCombo("company.timeZone",createIdContainer(TimeZone.class.getSimpleName()));
         workFromField = createTimeCombo(getMessage("company.workFrom"));
         workUntilField = createTimeCombo(getMessage("company.workUntil"));
         lunchFromField = createTimeCombo(getMessage("company.lunchFrom"));
         lunchUntilField = createTimeCombo(getMessage("company.lunchUntil"));
         subdivisionDeIdField = createTextField(getMessage("company.subdivisionDeId"));
-        subdivisionPUIdField = createCombo("company.subdivisionPU", createIdContainer(SubdivisionPU.class.getSimpleName(),"id"));
+        subdivisionPUIdField = createCombo("company.subdivisionPU", createIdContainer(SubdivisionPU.class.getSimpleName()));
         noteField = createTextField(getMessage("company.note"));
     }
 

@@ -87,10 +87,10 @@ public class SlaView extends BaseView {
     }
 
     private void createEditFields() {
-        contractSubjectIdField = createCombo("sla.contractSubjectId", createIdContainer(ContractSubject.class.getSimpleName(),"id"));
-        serviceIdField = createCombo("sla.serviceId", createIdContainer(Service.class.getSimpleName(),"id"));
-        priorityIdField = createCombo("sla.priorityId", createIdContainer(Priority.class.getSimpleName(), "id"));
-        customerCompanyIdField = createCombo("sla.customerCompanyId", createIdContainer(CustomerCompany.class.getSimpleName(), "id"));
+        contractSubjectIdField = createCombo("sla.contractSubjectId", createIdContainer(ContractSubject.class.getSimpleName()));
+        serviceIdField = createCombo("sla.serviceId", createIdContainer(Service.class.getSimpleName()));
+        priorityIdField = createCombo("sla.priorityId", createIdContainer(Priority.class.getSimpleName()));
+        customerCompanyIdField = createCombo("sla.customerCompanyId", createIdContainer(CustomerCompany.class.getSimpleName()));
         slaSecFild = createTextField("sla.slaSec");
     }
 

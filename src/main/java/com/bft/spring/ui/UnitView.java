@@ -86,7 +86,7 @@ public class UnitView extends BaseView {
     private void createEditFields() {
         nameField = createTextField(getMessage("unit.name"));
         removedFromBalanceField = createCombo("unit.removedFromBalance", createBooleanStringContainer());
-        productIdField = createCombo("unit.productId", createIdContainer(Product.class.getSimpleName(),"id"));
+        productIdField = createCombo("unit.productId", createIdContainer(Product.class.getSimpleName()));
     }
 
 }

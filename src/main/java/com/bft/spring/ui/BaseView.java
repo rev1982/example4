@@ -135,9 +135,9 @@ public class BaseView<T extends IDomainEntity> extends ViewInit {
         return combo;
     }
 
-    public BeanItemContainer<Long> createIdContainer(String tableName, String columnName) {
+    public BeanItemContainer<Long> createIdContainer(String tableName) {
         BeanItemContainer<Long> container = new BeanItemContainer<>(Long.class);
-        container.addAll(dataBaseService.getAllLongColumnValues(tableName, columnName));
+        container.addAll(dataBaseService.getAllLongColumnValues(tableName, "id"));
         return container;
     }
 
