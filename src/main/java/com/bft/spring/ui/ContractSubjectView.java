@@ -67,15 +67,13 @@ public class ContractSubjectView extends BaseView {
     }
 
     private void updateEditPanelFields() {
-        productIdField.setValue(contractSubject.getProduct() == null ? "" : contractSubject.getProduct().getId());
-        contractIdField.setValue(contractSubject.getContract() == null ? "" : contractSubject.getContract().getId());
+        productIdField.setValue(getNotNullId(contractSubject.getProduct()));
+        contractIdField.setValue(getNotNullId(contractSubject.getContract()));
     }
 
     private void updateFields() {
-        contractSubject.setProduct(productIdField.getValue() == null ? null :
-                (Product) getDataBaseService().findById((Long) productIdField.getValue(), Product.class));
-        contractSubject.setContract(contractIdField.getValue() == null ? null :
-                (Contract)getDataBaseService().findById((Long)contractIdField.getValue(),Contract.class));
+        contractSubject.setProduct((Product)getValueById(productIdField.getValue(),Product.class));
+        contractSubject.setContract((Contract)getValueById(contractIdField.getValue(),Contract.class));
     }
 
     private void createEditFields() {

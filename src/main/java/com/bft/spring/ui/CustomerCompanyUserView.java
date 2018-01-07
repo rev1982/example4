@@ -68,16 +68,14 @@ public class CustomerCompanyUserView extends BaseView {
 
 
     private void updateEditPanelFields() {
-        customerCompanyIdField.setValue(customerCompanyUser.getCustomerCompany() != null ? customerCompanyUser.getCustomerCompany().getId() : "");
-        userIdField.setValue(customerCompanyUser.getUser() != null ? customerCompanyUser.getUser().getId() : "");
+        customerCompanyIdField.setValue(getNotNullId(customerCompanyUser.getCustomerCompany()));
+        userIdField.setValue(getNotNullId(customerCompanyUser.getUser()));
     }
 
     private void updateFields() {
-        customerCompanyUser.setUser(userIdField.getValue() == null ? null :
-                (UserTable) getDataBaseService().findById((Long)userIdField.getValue(), UserTable.class));
+        customerCompanyUser.setUser((UserTable)getValueById(userIdField.getValue(), UserTable.class));
 
-        customerCompanyUser.setCustomerCompany(customerCompanyIdField.getValue() == null ? null :
-                (CustomerCompany) getDataBaseService().findById((Long)customerCompanyIdField.getValue(), CustomerCompany.class));
+        customerCompanyUser.setCustomerCompany((CustomerCompany)getValueById(customerCompanyIdField.getValue(), CustomerCompany.class));
     }
 
     private void createEditFields() {

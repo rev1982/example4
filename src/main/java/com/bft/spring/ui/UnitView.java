@@ -74,14 +74,13 @@ public class UnitView extends BaseView {
         nameField.setValue(notNullVal(unit.getName()));
         removedFromBalanceField.setValue(unit.getRemovedFromBalance() == null ? "" :
         unit.getRemovedFromBalance().toString());
-        productIdField.setValue(unit.getProduct() == null ? "" : unit.getProduct().getId());
+        productIdField.setValue(getNotNullId(unit.getProduct()));
     }
 
     private void updateFields() {
         unit.setName(nameField.getValue());
         unit.setRemovedFromBalance(removedFromBalanceField.getValue() == null ? null : Boolean.valueOf(removedFromBalanceField.getValue().toString()));
-        unit.setProduct(productIdField.getValue() == null ? null :
-                (Product)getDataBaseService().findById((Long)productIdField.getValue(), Product.class));
+        unit.setProduct((Product)getValueById(productIdField.getValue(), Product.class));
     }
 
     private void createEditFields() {

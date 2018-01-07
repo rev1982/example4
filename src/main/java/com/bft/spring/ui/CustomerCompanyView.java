@@ -71,16 +71,14 @@ public class CustomerCompanyView extends BaseView {
 
 
     private void updateEditPanelFields() {
-        subsidiaryIdField.setValue(customerCompany.getSubsidiary() != null ? customerCompany.getSubsidiary().getId() : "");
-        contractIdField.setValue(customerCompany.getContract() != null ? customerCompany.getContract().getId() : "");
+        subsidiaryIdField.setValue(getNotNullId(customerCompany.getSubsidiary()));
+        contractIdField.setValue(getNotNullId(customerCompany.getContract()));
     }
 
     private void updateFields() {
-        customerCompany.setContract(contractIdField.getValue() == null ? null :
-                (Contract) getDataBaseService().findById((Long)contractIdField.getValue(), Contract.class));
+        customerCompany.setContract((Contract)getValueById(contractIdField.getValue(), Contract.class));
 
-        customerCompany.setSubsidiary(subsidiaryIdField.getValue() == null ? null :
-                (Subsidiary) getDataBaseService().findById((Long)subsidiaryIdField.getValue(), Subsidiary.class));
+        customerCompany.setSubsidiary((Subsidiary)getValueById(subsidiaryIdField.getValue(), Subsidiary.class));
     }
 
     private void createEditFields() {
