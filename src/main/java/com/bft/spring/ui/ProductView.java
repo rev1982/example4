@@ -5,7 +5,6 @@ package com.bft.spring.ui;
  */
 
 import com.bft.spring.model.Product;
-import com.vaadin.data.Property;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Component;
 
@@ -21,57 +20,31 @@ public class ProductView extends BaseView {
 
     public VerticalSplitPanel initContent() {
         createEditFields();
+        entityClass = Product.class;
 
         VerticalLayout editLayout = new VerticalLayout(new HorizontalLayout(
                 new Component[]{nameField, emailField}));
 
         container = createContainer(Product.class);
 
-        Table table = createTable(getMessage("product.product"), container, new
+        table = createTable(getMessage("product.product"), container, new
                 Object[]{"id", "name", "email"});
-        table.setSizeFull();
 
-        table.addValueChangeListener(
-                (Property.ValueChangeEvent event) -> {
-                    product = (Product) table.getValue();
-                    if (product != null) {
-                        updateEditPanelFields();
-                    }
-                });
-
-        VerticalSplitPanel verticalSplitPanel = createVerticalSplitPanel(table, editLayout);
-
-        buttonUpdate.addClickListener(event -> {
-            if (product == null)
-                return;
-            updateFields();
-            getDataBaseService().saveOrUpdate(product);
-            updateContainer(Product.class);
-        });
-
-        buttonCreate.addClickListener(event -> {
-            product = new Product();
-            updateFields();
-            getDataBaseService().saveOrUpdate(product);
-            updateContainer(Product.class);
-        });
-
-        buttonDelete.addClickListener(event -> {
-            if (product == null)
-                return;
-            getDataBaseService().delete(product);
-            updateContainer(Product.class);
-        });
+        VerticalSplitPanel verticalSplitPanel = createVerticalSplitPanel(editLayout);
 
         return verticalSplitPanel;
     }
 
-    private void updateEditPanelFields() {
+    @Override
+    public void updateEditPanelFields() {
+        product = (Product) entity;
         nameField.setValue(notNullVal(product.getName()));
         emailField.setValue(notNullVal(product.getEmail()));
     }
 
-    private void updateFields() {
+    @Override
+    public void updateFields() {
+        product = (Product) entity;
         product.setName(nameField.getValue());
         product.setEmail(emailField.getValue());
     }

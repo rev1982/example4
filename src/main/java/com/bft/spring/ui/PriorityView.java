@@ -4,7 +4,6 @@ package com.bft.spring.ui;
  * Created by rev on 07.01.2018.
  */
 import com.bft.spring.model.Priority;
-import com.vaadin.data.Property;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Component;
 
@@ -17,57 +16,31 @@ public class PriorityView extends BaseView {
 
 
     public VerticalSplitPanel initContent() {
+        entityClass = Priority.class;
         createEditFields();
 
         VerticalLayout editLayout = new VerticalLayout(new HorizontalLayout(
                 new Component[]{nameField}));
 
-        container = createContainer(Priority.class);
+        container = createContainer(entityClass);
 
-        Table table = createTable(getMessage("priority.priority"), container, new
+        table = createTable(getMessage("priority.priority"), container, new
                 Object[]{"id", "name"});
-        table.setSizeFull();
 
-        table.addValueChangeListener(
-                (Property.ValueChangeEvent event) -> {
-                    priority = (Priority) table.getValue();
-                    if (priority != null) {
-                        updateEditPanelFields();
-                    }
-                });
-
-        VerticalSplitPanel verticalSplitPanel = createVerticalSplitPanel(table, editLayout);
-
-        buttonUpdate.addClickListener(event -> {
-            if (priority == null)
-                return;
-            updateFields();
-            getDataBaseService().saveOrUpdate(priority);
-            updateContainer(Priority.class);
-        });
-
-        buttonCreate.addClickListener(event -> {
-            priority = new Priority();
-            updateFields();
-            getDataBaseService().saveOrUpdate(priority);
-            updateContainer(Priority.class);
-        });
-
-        buttonDelete.addClickListener(event -> {
-            if (priority == null)
-                return;
-            getDataBaseService().delete(priority);
-            updateContainer(Priority.class);
-        });
+        VerticalSplitPanel verticalSplitPanel = createVerticalSplitPanel(editLayout);
 
         return verticalSplitPanel;
     }
 
-    private void updateEditPanelFields() {
+    @Override
+    public void updateEditPanelFields() {
+        priority = (Priority) entity;
         nameField.setValue(notNullVal(priority.getName()));
     }
 
-    private void updateFields() {
+    @Override
+    public void updateFields() {
+        priority = (Priority)entity;
         priority.setName(nameField.getValue());
     }
 

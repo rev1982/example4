@@ -19,59 +19,30 @@ public class SubdivisionPUView extends BaseView {
 
     public VerticalSplitPanel initContent() {
         createEditFields();
+        entityClass = SubdivisionPU.class;
 
         VerticalLayout editLayout = new VerticalLayout(new HorizontalLayout(
                 new Component[]{nameField}));
 
         container = createContainer(SubdivisionPU.class);
 
-        Table table = createTable(getMessage("subdivisionPU.SubdivisionPU"), container, new
+        table = createTable(getMessage("subdivisionPU.SubdivisionPU"), container, new
                 Object[]{"id", "name"});
-        table.setSizeFull();
-        table.setColumnWidth("id", 150);
-        table.setColumnWidth("name", 300);
 
-        table.addValueChangeListener(
-                (Property.ValueChangeEvent event) -> {
-                    subdivisionPU = (SubdivisionPU) table.getValue();
-                    if (subdivisionPU != null) {
-                        updateEditPanelFields();
-                    }
-                });
-
-        VerticalSplitPanel verticalSplitPanel = createVerticalSplitPanel(table, editLayout);
-
-        buttonUpdate.addClickListener(event -> {
-            if (subdivisionPU == null)
-                return;
-            updateSubdivisionPUFields();
-            getDataBaseService().saveOrUpdate(subdivisionPU);
-            updateContainer(SubdivisionPU.class);
-        });
-
-        buttonCreate.addClickListener(event -> {
-            subdivisionPU = new SubdivisionPU();
-            updateSubdivisionPUFields();
-            getDataBaseService().saveOrUpdate(subdivisionPU);
-            updateContainer(SubdivisionPU.class);
-        });
-
-        buttonDelete.addClickListener(event -> {
-            if (subdivisionPU == null)
-                return;
-            getDataBaseService().delete(subdivisionPU);
-            updateContainer(SubdivisionPU.class);
-        });
-
+        VerticalSplitPanel verticalSplitPanel = createVerticalSplitPanel(editLayout);
 
         return verticalSplitPanel;
     }
 
-    private void updateEditPanelFields() {
+    @Override
+    public void updateEditPanelFields() {
+        subdivisionPU = (SubdivisionPU) entity;
         nameField.setValue(notNullVal(subdivisionPU.getName()));
     }
 
-    private void updateSubdivisionPUFields() {
+    @Override
+    public void updateFields() {
+        subdivisionPU = (SubdivisionPU) entity;
         subdivisionPU.setName(nameField.getValue());
     }
 

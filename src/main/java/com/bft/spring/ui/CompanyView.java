@@ -3,7 +3,6 @@ package com.bft.spring.ui;
 import com.bft.spring.model.Company;
 import com.bft.spring.model.SubdivisionPU;
 import com.bft.spring.model.TimeZone;
-import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Component;
@@ -44,6 +43,7 @@ public class CompanyView extends BaseView {
 
 
     public VerticalSplitPanel initContent() {
+        entityClass = Company.class;
         initTimeContainer();
         createEditFields();
 
@@ -55,45 +55,14 @@ public class CompanyView extends BaseView {
 
         container = createContainer(Company.class);
 
-        Table table = createTable(getMessage("company.Company"), container, new
+        table = createTable(getMessage("company.Company"), container, new
                 Object[]{"id", "shortName", "fullName", "legalAdress", "actualAdress", "inn",
                 //"kpp", "fias",
                 "phone", "email", "actual",
                 //"vip", "timeZone", "workFrom", "workUntil", "lunchFrom", "lunchUntil", "subdivisionDeId", "subdivisionPU",
                 "note"});
-        table.setSizeFull();
 
-        table.addValueChangeListener(
-                (Property.ValueChangeEvent event) -> {
-                    company = (Company) table.getValue();
-                    if (company != null) {
-                        updateEditPanelFields();
-                    }
-                });
-
-        VerticalSplitPanel verticalSplitPanel = createVerticalSplitPanel(table, editLayout);
-
-        buttonUpdate.addClickListener(event -> {
-            if (company == null)
-                return;
-            updateCompanyFields();
-            getDataBaseService().saveOrUpdate(company);
-            updateContainer(Company.class);
-        });
-
-        buttonCreate.addClickListener(event -> {
-            company = new Company();
-            updateCompanyFields();
-            getDataBaseService().saveOrUpdate(company);
-            updateContainer(Company.class);
-        });
-
-        buttonDelete.addClickListener(event -> {
-            if (company == null)
-                return;
-            getDataBaseService().delete(company);
-            updateContainer(Company.class);
-        });
+        VerticalSplitPanel verticalSplitPanel = createVerticalSplitPanel(editLayout);
 
         return verticalSplitPanel;
     }
@@ -104,7 +73,9 @@ public class CompanyView extends BaseView {
         return timeCombo;
     }
 
-    private void updateEditPanelFields() {
+    @Override
+    public void updateEditPanelFields() {
+        company = (Company) entity;
         shortNameField.setValue(notNullVal(company.getShortName()));
         fullNameField.setValue(notNullVal(company.getFullName()));
         legalAdressField.setValue(notNullVal(company.getLegalAdress()));
@@ -126,7 +97,9 @@ public class CompanyView extends BaseView {
         noteField.setValue(notNullVal(company.getNote()));
     }
 
-    private void updateCompanyFields() {
+    @Override
+    public void updateFields() {
+        company = (Company) entity;
         company.setShortName(shortNameField.getValue());
         company.setFullName(fullNameField.getValue());
         company.setLegalAdress(legalAdressField.getValue());

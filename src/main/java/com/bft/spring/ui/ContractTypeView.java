@@ -19,58 +19,30 @@ public class ContractTypeView extends BaseView {
 
     public VerticalSplitPanel initContent() {
         createEditFields();
+        entityClass = ContractType.class;
 
         VerticalLayout editLayout = new VerticalLayout(new HorizontalLayout(
                 new Component[]{nameField}));
 
         container = createContainer(ContractType.class);
 
-        Table table = createTable(getMessage("contractType.ContractType"), container, new
+        table = createTable(getMessage("contractType.ContractType"), container, new
                 Object[]{"id", "name"});
-        table.setSizeFull();
-        table.setColumnWidth("id", 150);
-        table.setColumnWidth("name", 300);
 
-        table.addValueChangeListener(
-                (Property.ValueChangeEvent event) -> {
-                    contractType = (ContractType) table.getValue();
-                    if (contractType != null) {
-                        updateEditPanelFields();
-                    }
-                });
-
-        VerticalSplitPanel verticalSplitPanel = createVerticalSplitPanel(table, editLayout);
-
-        buttonUpdate.addClickListener(event -> {
-            if (contractType == null)
-                return;
-            updateFields();
-            getDataBaseService().saveOrUpdate(contractType);
-            updateContainer(ContractType.class);
-        });
-
-        buttonCreate.addClickListener(event -> {
-            contractType = new ContractType();
-            updateFields();
-            getDataBaseService().saveOrUpdate(contractType);
-            updateContainer(ContractType.class);
-        });
-
-        buttonDelete.addClickListener(event -> {
-            if (contractType == null)
-                return;
-            getDataBaseService().delete(contractType);
-            updateContainer(ContractType.class);
-        });
+        VerticalSplitPanel verticalSplitPanel = createVerticalSplitPanel(editLayout);
 
         return verticalSplitPanel;
     }
 
-    private void updateEditPanelFields() {
+    @Override
+    public void updateEditPanelFields() {
+        contractType = (ContractType) entity;
         nameField.setValue(notNullVal(contractType.getName()));
     }
 
-    private void updateFields() {
+    @Override
+    public void updateFields() {
+        contractType = (ContractType) entity;
         contractType.setName(nameField.getValue());
     }
 

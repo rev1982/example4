@@ -4,6 +4,7 @@ import com.bft.spring.messages.Messages;
 import com.bft.spring.model.*;
 import com.bft.spring.service.DataBaseService;
 import com.vaadin.data.Container;
+import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Component;
@@ -30,6 +31,11 @@ public class BaseView<T extends IDomainEntity> extends ViewInit {
     protected Button buttonUpdate;
     protected Button buttonCreate;
     protected Button buttonDelete;
+
+    public DomainEntity<Long> entity;
+    public Class entityClass;
+    public Table table;
+
 
     public Table createTable(String tableName, Container container, Object[] visibleColumns) {
         Table table = new Table(tableName);
@@ -89,12 +95,49 @@ public class BaseView<T extends IDomainEntity> extends ViewInit {
         return new VerticalLayout();
     }
 
-    public VerticalSplitPanel createVerticalSplitPanel(Table table, VerticalLayout editLayout) {
+    public VerticalSplitPanel createVerticalSplitPanel(VerticalLayout editLayout) {
+        table.setSizeFull();
+        table.addValueChangeListener(
+                (Property.ValueChangeEvent event) -> {
+                    entity = (DomainEntity<Long>) table.getValue();
+                    if (entity != null) {
+                        updateEditPanelFields();
+                    }
+                });
+
         buttonUpdate = new Button(getMessage("button.update"));
 
         buttonCreate = new Button(getMessage("button.create"));
 
         buttonDelete = new Button(getMessage("button.delete"));
+
+        buttonUpdate.addClickListener(event -> {
+            if (entity == null)
+                return;
+            updateFields();
+            getDataBaseService().saveOrUpdate(entity);
+            updateContainer(entityClass);
+        });
+
+        buttonCreate.addClickListener(event -> {
+            try {
+                entity = (DomainEntity<Long>)entityClass.newInstance();
+            } catch (InstantiationException e) {
+                throw  new RuntimeException(e);
+            } catch (IllegalAccessException e) {
+                throw  new RuntimeException(e);
+            }
+            updateFields();
+            getDataBaseService().saveOrUpdate(entity);
+            updateContainer(entityClass);
+        });
+
+        buttonDelete.addClickListener(event -> {
+            if (entity == null)
+                return;
+            getDataBaseService().delete(entity);
+            updateContainer(entityClass);
+        });
 
         HorizontalLayout buttonLayout = new HorizontalLayout(buttonUpdate, buttonCreate, buttonDelete);
         buttonLayout.setMargin(true);
@@ -147,6 +190,14 @@ public class BaseView<T extends IDomainEntity> extends ViewInit {
 
     public Object getNotNullId(DomainEntity<Long> domainEntity){
         return  domainEntity == null ? "" : domainEntity.getId();
+    }
+
+    public void updateFields() {
+
+    }
+
+    public void updateEditPanelFields(){
+
     }
 
 }

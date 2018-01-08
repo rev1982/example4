@@ -1,7 +1,6 @@
 package com.bft.spring.ui;
 
 import com.bft.spring.model.*;
-import com.vaadin.data.Property;
 import com.vaadin.ui.*;
 
 /**
@@ -19,57 +18,31 @@ public class SoldUnitView extends BaseView {
 
     public VerticalSplitPanel initContent() {
         createEditFields();
+        entityClass = SoldUnit.class;
 
         VerticalLayout editLayout = new VerticalLayout(new HorizontalLayout(
                 new Component[]{unitIdField, contractSubjectIdField}));
 
         container = createContainer(SoldUnit.class);
 
-        Table table = createTable(getMessage("SoldUnit.soldUnit"), container, new
+        table = createTable(getMessage("SoldUnit.soldUnit"), container, new
                 Object[]{"id", "unit", "contractSubject"});
-        table.setSizeFull();
 
-        table.addValueChangeListener(
-                (Property.ValueChangeEvent event) -> {
-                    soldUnit = (SoldUnit) table.getValue();
-                    if (soldUnit != null) {
-                        updateEditPanelFields();
-                    }
-                });
-
-        VerticalSplitPanel verticalSplitPanel = createVerticalSplitPanel(table, editLayout);
-
-        buttonUpdate.addClickListener(event -> {
-            if (soldUnit == null)
-                return;
-            updateFields();
-            getDataBaseService().saveOrUpdate(soldUnit);
-            updateContainer(SoldUnit.class);
-        });
-
-        buttonCreate.addClickListener(event -> {
-            soldUnit = new SoldUnit();
-            updateFields();
-            getDataBaseService().saveOrUpdate(soldUnit);
-            updateContainer(SoldUnit.class);
-        });
-
-        buttonDelete.addClickListener(event -> {
-            if (soldUnit == null)
-                return;
-            getDataBaseService().delete(soldUnit);
-            updateContainer(SoldUnit.class);
-        });
+        VerticalSplitPanel verticalSplitPanel = createVerticalSplitPanel(editLayout);
 
         return verticalSplitPanel;
     }
 
-    private void updateEditPanelFields() {
+    @Override
+    public void updateEditPanelFields() {
+        soldUnit = (SoldUnit) entity;
         contractSubjectIdField.setValue(getNotNullId(soldUnit.getContractSubject()));
         unitIdField.setValue(getNotNullId(soldUnit.getUnit()));
     }
 
-    private void updateFields() {
+    @Override
+    public void updateFields() {
+        soldUnit = (SoldUnit) entity;
         soldUnit.setContractSubject((ContractSubject) getEntityById(contractSubjectIdField.getValue(), ContractSubject.class));
         soldUnit.setUnit((com.bft.spring.model.Unit) getEntityById(unitIdField.getValue(), com.bft.spring.model.Unit.class));
     }

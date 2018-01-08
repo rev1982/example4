@@ -6,7 +6,6 @@ package com.bft.spring.ui;
 import com.bft.spring.model.Contract;
 import com.bft.spring.model.CustomerCompany;
 import com.bft.spring.model.Subsidiary;
-import com.vaadin.data.Property;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Component;
 
@@ -24,58 +23,32 @@ public class CustomerCompanyView extends BaseView {
 
     public VerticalSplitPanel initContent() {
         createEditFields();
+        entityClass = CustomerCompany.class;
 
         VerticalLayout editLayout = new VerticalLayout(
                 new HorizontalLayout(new Component[]{subsidiaryIdField, contractIdField}));
 
         container = createContainer(CustomerCompany.class);
 
-        Table table = createTable(getMessage("CustomerCompany.CustomerCompany"), container, new
+        table = createTable(getMessage("CustomerCompany.CustomerCompany"), container, new
                 Object[]{"id", "subsidiary", "contract"});
-        table.setSizeFull();
 
-        table.addValueChangeListener(
-                (Property.ValueChangeEvent event) -> {
-                    customerCompany = (CustomerCompany) table.getValue();
-                    if (customerCompany != null) {
-                        updateEditPanelFields();
-                    }
-                });
-
-        VerticalSplitPanel verticalSplitPanel = createVerticalSplitPanel(table, editLayout);
-
-        buttonUpdate.addClickListener(event -> {
-            if (customerCompany == null)
-                return;
-            updateFields();
-            getDataBaseService().saveOrUpdate(customerCompany);
-            updateContainer(CustomerCompany.class);
-        });
-
-        buttonCreate.addClickListener(event -> {
-            customerCompany = new CustomerCompany();
-            updateFields();
-            getDataBaseService().saveOrUpdate(customerCompany);
-            updateContainer(CustomerCompany.class);
-        });
-
-        buttonDelete.addClickListener(event -> {
-            if (customerCompany == null)
-                return;
-            getDataBaseService().delete(customerCompany);
-            updateContainer(CustomerCompany.class);
-        });
+        VerticalSplitPanel verticalSplitPanel = createVerticalSplitPanel(editLayout);
 
         return verticalSplitPanel;
     }
 
 
-    private void updateEditPanelFields() {
+    @Override
+    public void updateEditPanelFields() {
+        customerCompany = (CustomerCompany) entity;
         subsidiaryIdField.setValue(getNotNullId(customerCompany.getSubsidiary()));
         contractIdField.setValue(getNotNullId(customerCompany.getContract()));
     }
 
-    private void updateFields() {
+    @Override
+    public void updateFields() {
+        customerCompany = (CustomerCompany) entity;
         customerCompany.setContract((Contract)getEntityById(contractIdField.getValue(), Contract.class));
 
         customerCompany.setSubsidiary((Subsidiary)getEntityById(subsidiaryIdField.getValue(), Subsidiary.class));

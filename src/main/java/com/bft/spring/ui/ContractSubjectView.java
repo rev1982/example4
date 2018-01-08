@@ -3,7 +3,6 @@ package com.bft.spring.ui;
 import com.bft.spring.model.Contract;
 import com.bft.spring.model.ContractSubject;
 import com.bft.spring.model.Product;
-import com.vaadin.data.Property;
 import com.vaadin.ui.*;
 
 /**
@@ -21,25 +20,17 @@ public class ContractSubjectView extends BaseView {
 
     public VerticalSplitPanel initContent() {
         createEditFields();
+        entityClass = ContractSubject.class;
 
         VerticalLayout editLayout = new VerticalLayout(new HorizontalLayout(
                 new Component[]{productIdField, contractIdField}));
 
         container = createContainer(ContractSubject.class);
 
-        Table table = createTable(getMessage("ContractSubject.contractSubject"), container, new
+        table = createTable(getMessage("ContractSubject.contractSubject"), container, new
                 Object[]{"id", "contract", "product"});
-        table.setSizeFull();
 
-        table.addValueChangeListener(
-                (Property.ValueChangeEvent event) -> {
-                    contractSubject = (ContractSubject) table.getValue();
-                    if (contractSubject != null) {
-                        updateEditPanelFields();
-                    }
-                });
-
-        VerticalSplitPanel verticalSplitPanel = createVerticalSplitPanel(table, editLayout);
+        VerticalSplitPanel verticalSplitPanel = createVerticalSplitPanel(editLayout);
 
         buttonUpdate.addClickListener(event -> {
             if (contractSubject == null)
@@ -66,12 +57,16 @@ public class ContractSubjectView extends BaseView {
         return verticalSplitPanel;
     }
 
-    private void updateEditPanelFields() {
+    @Override
+    public void updateEditPanelFields() {
+        contractSubject = (ContractSubject) entity;
         productIdField.setValue(getNotNullId(contractSubject.getProduct()));
         contractIdField.setValue(getNotNullId(contractSubject.getContract()));
     }
 
-    private void updateFields() {
+    @Override
+    public void updateFields() {
+        contractSubject = (ContractSubject) entity;
         contractSubject.setProduct((Product)getEntityById(productIdField.getValue(),Product.class));
         contractSubject.setContract((Contract)getEntityById(contractIdField.getValue(),Contract.class));
     }

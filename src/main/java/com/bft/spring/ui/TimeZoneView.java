@@ -19,58 +19,30 @@ public class TimeZoneView extends BaseView {
 
     public VerticalSplitPanel initContent() {
         createEditFields();
+        entityClass = TimeZone.class;
 
         VerticalLayout editLayout = new VerticalLayout(new HorizontalLayout(
                 new Component[]{nameField}));
 
         container = createContainer(TimeZone.class);
 
-        Table table = createTable(getMessage("timezone.TimeZone"), container, new
+        table = createTable(getMessage("timezone.TimeZone"), container, new
                 Object[]{"id", "name"});
-        table.setSizeFull();
-        table.setColumnWidth("id", 150);
-        table.setColumnWidth("name", 300);
 
-        table.addValueChangeListener(
-                (Property.ValueChangeEvent event) -> {
-                    timezone = (TimeZone) table.getValue();
-                    if (timezone != null) {
-                        updateEditPanelFields();
-                    }
-                });
-
-        VerticalSplitPanel verticalSplitPanel = createVerticalSplitPanel(table, editLayout);
-
-        buttonUpdate.addClickListener(event -> {
-            if (timezone == null)
-                return;
-            updateTimeZoneFields();
-            getDataBaseService().saveOrUpdate(timezone);
-            updateContainer(TimeZone.class);
-        });
-
-        buttonCreate.addClickListener(event -> {
-            timezone = new TimeZone();
-            updateTimeZoneFields();
-            getDataBaseService().saveOrUpdate(timezone);
-            updateContainer(TimeZone.class);
-        });
-
-        buttonDelete.addClickListener(event -> {
-            if (timezone == null)
-                return;
-            getDataBaseService().delete(timezone);
-            updateContainer(TimeZone.class);
-        });
+        VerticalSplitPanel verticalSplitPanel = createVerticalSplitPanel(editLayout);
 
         return verticalSplitPanel;
     }
 
-    private void updateEditPanelFields() {
+    @Override
+    public void updateEditPanelFields() {
+        timezone = (TimeZone) entity;
         nameField.setValue(notNullVal(timezone.getName()));
     }
 
-    private void updateTimeZoneFields() {
+    @Override
+    public void updateFields() {
+        timezone = (TimeZone) entity;
         timezone.setName(nameField.getValue());
     }
 

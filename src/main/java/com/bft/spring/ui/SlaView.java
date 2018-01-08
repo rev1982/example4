@@ -1,7 +1,6 @@
 package com.bft.spring.ui;
 
 import com.bft.spring.model.*;
-import com.vaadin.data.Property;
 import com.vaadin.ui.*;
 
 /**
@@ -25,52 +24,24 @@ public class SlaView extends BaseView {
 
     public VerticalSplitPanel initContent() {
         createEditFields();
+        entityClass = Sla.class;
 
         VerticalLayout editLayout = new VerticalLayout(new HorizontalLayout(
                 new Component[]{customerCompanyIdField, contractSubjectIdField, serviceIdField, priorityIdField, slaSecFild}));
 
         container = createContainer(Sla.class);
 
-        Table table = createTable(getMessage("sla.sla"), container, new
+        table = createTable(getMessage("sla.sla"), container, new
                 Object[]{"id", "customerCompany", "contractSubject", "service", "priority", "slaSec"});
-        table.setSizeFull();
 
-        table.addValueChangeListener(
-                (Property.ValueChangeEvent event) -> {
-                    sla = (Sla) table.getValue();
-                    if (sla != null) {
-                        updateEditPanelFields();
-                    }
-                });
-
-        VerticalSplitPanel verticalSplitPanel = createVerticalSplitPanel(table, editLayout);
-
-        buttonUpdate.addClickListener(event -> {
-            if (sla == null)
-                return;
-            updateFields();
-            getDataBaseService().saveOrUpdate(sla);
-            updateContainer(Sla.class);
-        });
-
-        buttonCreate.addClickListener(event -> {
-            sla = new Sla();
-            updateFields();
-            getDataBaseService().saveOrUpdate(sla);
-            updateContainer(Sla.class);
-        });
-
-        buttonDelete.addClickListener(event -> {
-            if (sla == null)
-                return;
-            getDataBaseService().delete(sla);
-            updateContainer(Sla.class);
-        });
+        VerticalSplitPanel verticalSplitPanel = createVerticalSplitPanel(editLayout);
 
         return verticalSplitPanel;
     }
 
-    private void updateEditPanelFields() {
+    @Override
+    public void updateEditPanelFields() {
+        sla = (Sla) entity;
         contractSubjectIdField.setValue(getNotNullId(sla.getContractSubject()));
         serviceIdField.setValue(getNotNullId(sla.getService()));
         priorityIdField.setValue(getNotNullId(sla.getPriority()));
@@ -78,7 +49,9 @@ public class SlaView extends BaseView {
         slaSecFild.setValue(sla.getSlaSec() == null ? "" : sla.getSlaSec().toString());
     }
 
-    private void updateFields() {
+    @Override
+    public void updateFields() {
+        sla = (Sla) entity;
         sla.setContractSubject((ContractSubject) getEntityById(contractSubjectIdField.getValue(), ContractSubject.class));
         sla.setService((Service) getEntityById(serviceIdField.getValue(), Service.class));
         sla.setPriority((Priority) getEntityById(priorityIdField.getValue(), Priority.class));

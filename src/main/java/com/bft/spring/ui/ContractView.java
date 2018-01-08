@@ -4,7 +4,6 @@ package com.bft.spring.ui;
  * Created by rev on 06.01.2018.
  */
 import com.bft.spring.model.*;
-import com.vaadin.data.Property;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Component;
 
@@ -30,6 +29,7 @@ public class ContractView extends BaseView {
 
     public VerticalSplitPanel initContent() {
         createEditFields();
+        entityClass = Contract.class;
 
         VerticalLayout editLayout = new VerticalLayout(
                 new HorizontalLayout(new Component[]{customerCompanyIdField, contractDateField, numberField, puNumberField, statusField, puProjectField}),
@@ -37,48 +37,19 @@ public class ContractView extends BaseView {
 
         container = createContainer(Contract.class);
 
-        Table table = createTable(getMessage("contract.Contract"), container, new
+        table = createTable(getMessage("contract.Contract"), container, new
                 Object[]{"id", "customerCompany", "contractDate", "number", "puNumber", "status", "puProject", "subdivisionPU",
-                "validFrom", "validUntil", "isValid", "contractType" });
-        table.setSizeFull();
+                "validFrom", "validUntil", "isValid", "contractType"});
 
-        table.addValueChangeListener(
-                (Property.ValueChangeEvent event) -> {
-                    contract = (Contract) table.getValue();
-                    if (contract != null) {
-                        updateEditPanelFields();
-                    }
-                });
-
-        VerticalSplitPanel verticalSplitPanel = createVerticalSplitPanel(table, editLayout);
-
-        buttonUpdate.addClickListener(event -> {
-            if (contract == null)
-                return;
-            updateFields();
-            getDataBaseService().saveOrUpdate(contract);
-            updateContainer(Contract.class);
-        });
-
-        buttonCreate.addClickListener(event -> {
-            contract = new Contract();
-            updateFields();
-            getDataBaseService().saveOrUpdate(contract);
-            updateContainer(Contract.class);
-        });
-
-        buttonDelete.addClickListener(event -> {
-            if (contract == null)
-                return;
-            getDataBaseService().delete(contract);
-            updateContainer(Contract.class);
-        });
+        VerticalSplitPanel verticalSplitPanel = createVerticalSplitPanel(editLayout);
 
         return verticalSplitPanel;
     }
 
 
-    private void updateEditPanelFields() {
+    @Override
+    public void updateEditPanelFields() {
+        contract = (Contract) entity;
         customerCompanyIdField.setValue(getNotNullId(contract.getCustomerCompany()));
         contractDateField.setValue(contract.getContractDate());
         numberField.setValue(contract.getNumber());
@@ -92,7 +63,9 @@ public class ContractView extends BaseView {
         contractTypeIdField.setValue(getNotNullId(contract.getContractType()));
     }
 
-    private void updateFields() {
+    @Override
+    public void updateFields() {
+        contract = (Contract) entity;
         contract.setCustomerCompany((Company) getEntityById(customerCompanyIdField.getValue(), Company.class));
         contract.setContractDate(contractDateField.getValue() != null ?
                 new Date(contractDateField.getValue().getTime()) : null);

@@ -2,8 +2,6 @@ package com.bft.spring.ui;
 
 import com.bft.spring.model.Company;
 import com.bft.spring.model.UserTable;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Component;
 
@@ -31,6 +29,7 @@ public class UserTableView extends BaseView {
 
     public VerticalSplitPanel initContent() {
         createEditFields();
+        entityClass = UserTable.class;
 
         VerticalLayout editLayout = new VerticalLayout(
                 new HorizontalLayout(new Component[]{userNameField, mobilePhoneField, workPhoneField, skypeField}),
@@ -38,49 +37,20 @@ public class UserTableView extends BaseView {
 
         container = createContainer(UserTable.class);
 
-        Table table = createTable(getMessage("user.User"), container, new
+        table = createTable(getMessage("user.User"), container, new
                 Object[]{"id", "userName", "mobilePhone", "workPhone", "skype", "icq",
                 "position", "company",
                 "blockingCause"});
-        table.setSizeFull();
 
-        table.addValueChangeListener(
-                (Property.ValueChangeEvent event) -> {
-                    userTable = (UserTable) table.getValue();
-                    if (userTable != null) {
-                        updateEditPanelFields();
-                    }
-                });
-
-        VerticalSplitPanel verticalSplitPanel = createVerticalSplitPanel(table, editLayout);
-
-        buttonUpdate.addClickListener(event -> {
-            if (userTable == null)
-                return;
-            updateUserTableFields();
-            getDataBaseService().saveOrUpdate(userTable);
-            updateContainer(UserTable.class);
-        });
-
-        buttonCreate.addClickListener(event -> {
-            userTable = new UserTable();
-            updateUserTableFields();
-            getDataBaseService().saveOrUpdate(userTable);
-            updateContainer(UserTable.class);
-        });
-
-        buttonDelete.addClickListener(event -> {
-            if (userTable == null)
-                return;
-            getDataBaseService().delete(userTable);
-            updateContainer(UserTable.class);
-        });
+        VerticalSplitPanel verticalSplitPanel = createVerticalSplitPanel(editLayout);
 
         return verticalSplitPanel;
     }
 
 
-    private void updateEditPanelFields() {
+    @Override
+    public void updateEditPanelFields() {
+        userTable = (UserTable) entity;
         userNameField.setValue(notNullVal(userTable.getUserName()));
         mobilePhoneField.setValue(notNullVal(userTable.getMobilePhone()));
         workPhoneField.setValue(notNullVal(userTable.getWorkPhone()));
@@ -91,7 +61,9 @@ public class UserTableView extends BaseView {
         companyIdField.setValue(getNotNullId(userTable.getCompany()));
     }
 
-    private void updateUserTableFields() {
+    @Override
+    public void updateFields() {
+        userTable = (UserTable) entity;
         userTable.setBlockingCause(blockingCauseField.getValue());
         userTable.setCompany((Company) getEntityById(companyIdField.getValue(), Company.class));
         userTable.setIcq(icqField.getValue());

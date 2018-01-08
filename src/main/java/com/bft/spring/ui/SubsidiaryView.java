@@ -5,8 +5,6 @@ package com.bft.spring.ui;
  */
 import com.bft.spring.model.Company;
 import com.bft.spring.model.Subsidiary;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Component;
 
@@ -24,58 +22,32 @@ public class SubsidiaryView extends BaseView {
 
     public VerticalSplitPanel initContent() {
         createEditFields();
+        entityClass = Subsidiary.class;
 
         VerticalLayout editLayout = new VerticalLayout(
                 new HorizontalLayout(new Component[]{subsidiaryCompanyIdField, parentCompanyIdField}));
 
         container = createContainer(Subsidiary.class);
 
-        Table table = createTable(getMessage("subsidiary.Subsidiary"), container, new
+        table = createTable(getMessage("subsidiary.Subsidiary"), container, new
                 Object[]{"id", "subsidiaryCompany", "parentCompany"});
-        table.setSizeFull();
 
-        table.addValueChangeListener(
-                (Property.ValueChangeEvent event) -> {
-                    subsidiary = (Subsidiary) table.getValue();
-                    if (subsidiary != null) {
-                        updateEditPanelFields();
-                    }
-                });
-
-        VerticalSplitPanel verticalSplitPanel = createVerticalSplitPanel(table, editLayout);
-
-        buttonUpdate.addClickListener(event -> {
-            if (subsidiary == null)
-                return;
-            updateFields();
-            getDataBaseService().saveOrUpdate(subsidiary);
-            updateContainer(Subsidiary.class);
-        });
-
-        buttonCreate.addClickListener(event -> {
-            subsidiary = new Subsidiary();
-            updateFields();
-            getDataBaseService().saveOrUpdate(subsidiary);
-            updateContainer(Subsidiary.class);
-        });
-
-        buttonDelete.addClickListener(event -> {
-            if (subsidiary == null)
-                return;
-            getDataBaseService().delete(subsidiary);
-            updateContainer(Subsidiary.class);
-        });
+        VerticalSplitPanel verticalSplitPanel = createVerticalSplitPanel(editLayout);
 
         return verticalSplitPanel;
     }
 
 
-    private void updateEditPanelFields() {
+    @Override
+    public void updateEditPanelFields() {
+        subsidiary = (Subsidiary)entity;
         subsidiaryCompanyIdField.setValue(getNotNullId(subsidiary.getSubsidiaryCompany()));
         parentCompanyIdField.setValue(getNotNullId(subsidiary.getParentCompany()));
     }
 
-    private void updateFields() {
+    @Override
+    public void updateFields() {
+        subsidiary = (Subsidiary) entity;
         subsidiary.setSubsidiaryCompany((Company) getEntityById(subsidiaryCompanyIdField.getValue(), Company.class));
         subsidiary.setParentCompany((Company) getEntityById(parentCompanyIdField.getValue(), Company.class));
     }
