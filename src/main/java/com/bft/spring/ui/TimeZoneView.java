@@ -24,7 +24,7 @@ public class TimeZoneView extends BaseView {
         VerticalLayout editLayout = new VerticalLayout(new HorizontalLayout(
                 new Component[]{nameField}));
 
-        container = createContainer(TimeZone.class);
+        container = uiUtils.createContainer(TimeZone.class);
 
         table = createTable(getMessage("timezone.TimeZone"), container, new
                 Object[]{"id", "name"});

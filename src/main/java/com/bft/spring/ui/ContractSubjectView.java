@@ -25,34 +25,34 @@ public class ContractSubjectView extends BaseView {
         VerticalLayout editLayout = new VerticalLayout(new HorizontalLayout(
                 new Component[]{productIdField, contractIdField}));
 
-        container = createContainer(ContractSubject.class);
+        container = uiUtils.createContainer(ContractSubject.class);
 
         table = createTable(getMessage("ContractSubject.contractSubject"), container, new
                 Object[]{"id", "contract", "product"});
 
         VerticalSplitPanel verticalSplitPanel = createVerticalSplitPanel(editLayout);
 
-        buttonUpdate.addClickListener(event -> {
-            if (contractSubject == null)
-                return;
-            updateFields();
-            getDataBaseService().saveOrUpdate(contractSubject);
-            updateContainer(ContractSubject.class);
-        });
-
-        buttonCreate.addClickListener(event -> {
-            contractSubject = new ContractSubject();
-            updateFields();
-            getDataBaseService().saveOrUpdate(contractSubject);
-            updateContainer(ContractSubject.class);
-        });
-
-        buttonDelete.addClickListener(event -> {
-            if (contractSubject == null)
-                return;
-            getDataBaseService().delete(contractSubject);
-            updateContainer(ContractSubject.class);
-        });
+//        buttonUpdate.addClickListener(event -> {
+//            if (contractSubject == null)
+//                return;
+//            updateFields();
+//            getDataBaseService().saveOrUpdate(contractSubject);
+//            updateContainer(ContractSubject.class);
+//        });
+//
+//        buttonCreate.addClickListener(event -> {
+//            contractSubject = new ContractSubject();
+//            updateFields();
+//            getDataBaseService().saveOrUpdate(contractSubject);
+//            updateContainer(ContractSubject.class);
+//        });
+//
+//        buttonDelete.addClickListener(event -> {
+//            if (contractSubject == null)
+//                return;
+//            getDataBaseService().delete(contractSubject);
+//            updateContainer(ContractSubject.class);
+//        });
 
         return verticalSplitPanel;
     }
@@ -60,20 +60,20 @@ public class ContractSubjectView extends BaseView {
     @Override
     public void updateEditPanelFields() {
         contractSubject = (ContractSubject) entity;
-        productIdField.setValue(getNotNullId(contractSubject.getProduct()));
-        contractIdField.setValue(getNotNullId(contractSubject.getContract()));
+        productIdField.setValue(uiUtils.getNotNullId(contractSubject.getProduct()));
+        contractIdField.setValue(uiUtils.getNotNullId(contractSubject.getContract()));
     }
 
     @Override
     public void updateFields() {
         contractSubject = (ContractSubject) entity;
-        contractSubject.setProduct((Product)getEntityById(productIdField.getValue(),Product.class));
-        contractSubject.setContract((Contract)getEntityById(contractIdField.getValue(),Contract.class));
+        contractSubject.setProduct((Product)uiUtils.getEntityById(productIdField.getValue(), Product.class));
+        contractSubject.setContract((Contract)uiUtils.getEntityById(contractIdField.getValue(), Contract.class));
     }
 
     private void createEditFields() {
-        productIdField = createCombo("ContractSubject.productId", createIdContainer(Product.class.getSimpleName()));
-        contractIdField = createCombo("ContractSubject.contractId", createIdContainer(Contract.class.getSimpleName()));
+        productIdField = uiUtils.createCombo("ContractSubject.productId", uiUtils.createIdContainer(Product.class.getSimpleName()));
+        contractIdField = uiUtils.createCombo("ContractSubject.contractId", uiUtils.createIdContainer(Contract.class.getSimpleName()));
     }
 
 }

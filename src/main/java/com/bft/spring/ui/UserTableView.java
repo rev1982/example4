@@ -35,7 +35,7 @@ public class UserTableView extends BaseView {
                 new HorizontalLayout(new Component[]{userNameField, mobilePhoneField, workPhoneField, skypeField}),
                 new HorizontalLayout(new Component[]{icqField, positionField, companyIdField, blockingCauseField}));
 
-        container = createContainer(UserTable.class);
+        container = uiUtils.createContainer(UserTable.class);
 
         table = createTable(getMessage("user.User"), container, new
                 Object[]{"id", "userName", "mobilePhone", "workPhone", "skype", "icq",
@@ -58,14 +58,14 @@ public class UserTableView extends BaseView {
         icqField.setValue(notNullVal(userTable.getIcq()));
         positionField.setValue(notNullVal(userTable.getPosition()));
         blockingCauseField.setValue(notNullVal(userTable.getBlockingCause()));
-        companyIdField.setValue(getNotNullId(userTable.getCompany()));
+        companyIdField.setValue(uiUtils.getNotNullId(userTable.getCompany()));
     }
 
     @Override
     public void updateFields() {
         userTable = (UserTable) entity;
         userTable.setBlockingCause(blockingCauseField.getValue());
-        userTable.setCompany((Company) getEntityById(companyIdField.getValue(), Company.class));
+        userTable.setCompany((Company) uiUtils.getEntityById(companyIdField.getValue(), Company.class));
         userTable.setIcq(icqField.getValue());
         userTable.setMobilePhone(mobilePhoneField.getValue());
         userTable.setWorkPhone(workPhoneField.getValue());
@@ -82,7 +82,7 @@ public class UserTableView extends BaseView {
         icqField = createTextField(getMessage("user.icq"));
         positionField = createTextField(getMessage("user.position"));
         blockingCauseField = createTextField(getMessage("user.blockingCause"));
-        companyIdField = createCombo("user.company", createIdContainer(Company.class.getSimpleName()));
+        companyIdField = uiUtils.createCombo("user.company", uiUtils.createIdContainer(Company.class.getSimpleName()));
     }
 
 }

@@ -29,7 +29,7 @@ public class UnitView extends BaseView {
         VerticalLayout editLayout = new VerticalLayout(new HorizontalLayout(
                 new Component[]{nameField, productIdField, removedFromBalanceField}));
 
-        container = createContainer(com.bft.spring.model.Unit.class);
+        container = uiUtils.createContainer(com.bft.spring.model.Unit.class);
 
         table = createTable(getMessage("unit.unit"), container, new
                 Object[]{"id", "name", "product", "removedFromBalance"});
@@ -45,7 +45,7 @@ public class UnitView extends BaseView {
         nameField.setValue(notNullVal(unit.getName()));
         removedFromBalanceField.setValue(unit.getRemovedFromBalance() == null ? "" :
         unit.getRemovedFromBalance().toString());
-        productIdField.setValue(getNotNullId(unit.getProduct()));
+        productIdField.setValue(uiUtils.getNotNullId(unit.getProduct()));
     }
 
     @Override
@@ -53,13 +53,13 @@ public class UnitView extends BaseView {
         unit = (com.bft.spring.model.Unit) entity;
         unit.setName(nameField.getValue());
         unit.setRemovedFromBalance(removedFromBalanceField.getValue() == null ? null : Boolean.valueOf(removedFromBalanceField.getValue().toString()));
-        unit.setProduct((Product)getEntityById(productIdField.getValue(), Product.class));
+        unit.setProduct((Product)uiUtils.getEntityById(productIdField.getValue(), Product.class));
     }
 
     private void createEditFields() {
         nameField = createTextField(getMessage("unit.name"));
-        removedFromBalanceField = createCombo("unit.removedFromBalance", createBooleanStringContainer());
-        productIdField = createCombo("unit.productId", createIdContainer(Product.class.getSimpleName()));
+        removedFromBalanceField = uiUtils.createCombo("unit.removedFromBalance", uiUtils.createBooleanStringContainer());
+        productIdField = uiUtils.createCombo("unit.productId", uiUtils.createIdContainer(Product.class.getSimpleName()));
     }
 
 }

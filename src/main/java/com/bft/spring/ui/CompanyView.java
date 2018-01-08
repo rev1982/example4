@@ -53,7 +53,7 @@ public class CompanyView extends BaseView {
                 new HorizontalLayout(new Component[]{timezoneCombo, workFromField, workUntilField, lunchFromField, lunchUntilField}),
                 new HorizontalLayout(new Component[]{subdivisionDeIdField, subdivisionPUIdField, noteField}));
 
-        container = createContainer(Company.class);
+        container = uiUtils.createContainer(Company.class);
 
         table = createTable(getMessage("company.Company"), container, new
                 Object[]{"id", "shortName", "fullName", "legalAdress", "actualAdress", "inn",
@@ -87,13 +87,13 @@ public class CompanyView extends BaseView {
         emailField.setValue(notNullVal(company.getEmail()));
         actualCombo.setValue(company.getActual() != null ? company.getActual().toString() : null);
         vipField.setValue(notNullVal(company.getVip()));
-        timezoneCombo.setValue(getNotNullId(company.getTimeZone()));
-        workFromField.setValue(getTimeVal(company.getWorkFrom()));
-        workUntilField.setValue(getTimeVal(company.getWorkUntil()));
-        lunchFromField.setValue(getTimeVal(company.getLunchFrom()));
-        lunchUntilField.setValue(getTimeVal(company.getLunchUntil()));
+        timezoneCombo.setValue(uiUtils.getNotNullId(company.getTimeZone()));
+        workFromField.setValue(uiUtils.getTimeVal(company.getWorkFrom()));
+        workUntilField.setValue(uiUtils.getTimeVal(company.getWorkUntil()));
+        lunchFromField.setValue(uiUtils.getTimeVal(company.getLunchFrom()));
+        lunchUntilField.setValue(uiUtils.getTimeVal(company.getLunchUntil()));
         subdivisionDeIdField.setValue(company.getSubdivisionDeId() != null ? company.getSubdivisionDeId().toString() : "");
-        subdivisionPUIdField.setValue(getNotNullId(company.getSubdivisionPU()));
+        subdivisionPUIdField.setValue(uiUtils.getNotNullId(company.getSubdivisionPU()));
         noteField.setValue(notNullVal(company.getNote()));
     }
 
@@ -112,14 +112,14 @@ public class CompanyView extends BaseView {
         company.setActual(actualCombo.getValue() == null ? null :
                 Boolean.parseBoolean(actualCombo.getValue().toString()));
         company.setVip(vipField.getValue());
-        company.setTimeZone((TimeZone) getEntityById(timezoneCombo.getValue(), TimeZone.class));
-        company.setWorkFrom(getTimeFromCombo(workFromField.getValue()));
-        company.setWorkUntil(getTimeFromCombo(workUntilField.getValue()));
-        company.setLunchFrom(getTimeFromCombo(lunchFromField.getValue()));
-        company.setLunchUntil(getTimeFromCombo(lunchUntilField.getValue()));
+        company.setTimeZone((TimeZone) uiUtils.getEntityById(timezoneCombo.getValue(), TimeZone.class));
+        company.setWorkFrom(uiUtils.getTimeFromCombo(workFromField.getValue()));
+        company.setWorkUntil(uiUtils.getTimeFromCombo(workUntilField.getValue()));
+        company.setLunchFrom(uiUtils.getTimeFromCombo(lunchFromField.getValue()));
+        company.setLunchUntil(uiUtils.getTimeFromCombo(lunchUntilField.getValue()));
         company.setSubdivisionDeId(subdivisionDeIdField.getValue() == null || subdivisionDeIdField.getValue().length() == 0 ?
                 null : Long.parseLong(subdivisionDeIdField.getValue()));
-        company.setSubdivisionPU((SubdivisionPU)getEntityById(subdivisionPUIdField.getValue(), SubdivisionPU.class));
+        company.setSubdivisionPU((SubdivisionPU)uiUtils.getEntityById(subdivisionPUIdField.getValue(), SubdivisionPU.class));
         company.setNote(noteField.getValue());
     }
 
@@ -133,15 +133,15 @@ public class CompanyView extends BaseView {
         fiasField = createTextField(getMessage("company.fias"));
         phoneField = createTextField(getMessage("company.phone"));
         emailField = createTextField(getMessage("company.email"));
-        actualCombo = createCombo("company.actual", createBooleanStringContainer());
+        actualCombo = uiUtils.createCombo("company.actual", uiUtils.createBooleanStringContainer());
         vipField = createTextField(getMessage("company.vip"));
-        timezoneCombo = createCombo("company.timeZone",createIdContainer(TimeZone.class.getSimpleName()));
+        timezoneCombo = uiUtils.createCombo("company.timeZone", uiUtils.createIdContainer(TimeZone.class.getSimpleName()));
         workFromField = createTimeCombo(getMessage("company.workFrom"));
         workUntilField = createTimeCombo(getMessage("company.workUntil"));
         lunchFromField = createTimeCombo(getMessage("company.lunchFrom"));
         lunchUntilField = createTimeCombo(getMessage("company.lunchUntil"));
         subdivisionDeIdField = createTextField(getMessage("company.subdivisionDeId"));
-        subdivisionPUIdField = createCombo("company.subdivisionPU", createIdContainer(SubdivisionPU.class.getSimpleName()));
+        subdivisionPUIdField = uiUtils.createCombo("company.subdivisionPU", uiUtils.createIdContainer(SubdivisionPU.class.getSimpleName()));
         noteField = createTextField(getMessage("company.note"));
     }
 

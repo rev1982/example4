@@ -24,7 +24,7 @@ public class SubdivisionPUView extends BaseView {
         VerticalLayout editLayout = new VerticalLayout(new HorizontalLayout(
                 new Component[]{nameField}));
 
-        container = createContainer(SubdivisionPU.class);
+        container = uiUtils.createContainer(SubdivisionPU.class);
 
         table = createTable(getMessage("subdivisionPU.SubdivisionPU"), container, new
                 Object[]{"id", "name"});

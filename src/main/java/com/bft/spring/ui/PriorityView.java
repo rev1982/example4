@@ -22,7 +22,7 @@ public class PriorityView extends BaseView {
         VerticalLayout editLayout = new VerticalLayout(new HorizontalLayout(
                 new Component[]{nameField}));
 
-        container = createContainer(entityClass);
+        container = uiUtils.createContainer(entityClass);
 
         table = createTable(getMessage("priority.priority"), container, new
                 Object[]{"id", "name"});
@@ -45,7 +45,7 @@ public class PriorityView extends BaseView {
     }
 
     private void createEditFields() {
-        nameField = createTextField(getMessage("priority.name"));
+        nameField = createTextField(uiUtils.getMessage("priority.name"));
     }
 
 }

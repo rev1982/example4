@@ -27,7 +27,7 @@ public class SubsidiaryView extends BaseView {
         VerticalLayout editLayout = new VerticalLayout(
                 new HorizontalLayout(new Component[]{subsidiaryCompanyIdField, parentCompanyIdField}));
 
-        container = createContainer(Subsidiary.class);
+        container = uiUtils.createContainer(Subsidiary.class);
 
         table = createTable(getMessage("subsidiary.Subsidiary"), container, new
                 Object[]{"id", "subsidiaryCompany", "parentCompany"});
@@ -41,20 +41,20 @@ public class SubsidiaryView extends BaseView {
     @Override
     public void updateEditPanelFields() {
         subsidiary = (Subsidiary)entity;
-        subsidiaryCompanyIdField.setValue(getNotNullId(subsidiary.getSubsidiaryCompany()));
-        parentCompanyIdField.setValue(getNotNullId(subsidiary.getParentCompany()));
+        subsidiaryCompanyIdField.setValue(uiUtils.getNotNullId(subsidiary.getSubsidiaryCompany()));
+        parentCompanyIdField.setValue(uiUtils.getNotNullId(subsidiary.getParentCompany()));
     }
 
     @Override
     public void updateFields() {
         subsidiary = (Subsidiary) entity;
-        subsidiary.setSubsidiaryCompany((Company) getEntityById(subsidiaryCompanyIdField.getValue(), Company.class));
-        subsidiary.setParentCompany((Company) getEntityById(parentCompanyIdField.getValue(), Company.class));
+        subsidiary.setSubsidiaryCompany((Company) uiUtils.getEntityById(subsidiaryCompanyIdField.getValue(), Company.class));
+        subsidiary.setParentCompany((Company) uiUtils.getEntityById(parentCompanyIdField.getValue(), Company.class));
     }
 
     private void createEditFields() {
-        subsidiaryCompanyIdField = createCombo("subsidiary.subsidiaryCompany", createIdContainer(Company.class.getSimpleName()));
-        parentCompanyIdField = createCombo("subsidiary.parentCompany", createIdContainer(Company.class.getSimpleName()));
+        subsidiaryCompanyIdField = uiUtils.createCombo("subsidiary.subsidiaryCompany", uiUtils.createIdContainer(Company.class.getSimpleName()));
+        parentCompanyIdField = uiUtils.createCombo("subsidiary.parentCompany", uiUtils.createIdContainer(Company.class.getSimpleName()));
     }
 
 

@@ -25,7 +25,7 @@ public class CustomerCompanyUserView extends BaseView {
         VerticalLayout editLayout = new VerticalLayout(
                 new HorizontalLayout(new Component[]{customerCompanyIdField,userIdField}));
 
-        container = createContainer(CustomerCompanyUser.class);
+        container = uiUtils.createContainer(CustomerCompanyUser.class);
 
         table = createTable(getMessage("CustomerCompanyUser.CustomerCompanyUser"), container, new
                 Object[]{"id", "customerCompany", "user"});
@@ -39,21 +39,21 @@ public class CustomerCompanyUserView extends BaseView {
     @Override
     public void updateEditPanelFields() {
         customerCompanyUser = (CustomerCompanyUser) entity;
-        customerCompanyIdField.setValue(getNotNullId(customerCompanyUser.getCustomerCompany()));
-        userIdField.setValue(getNotNullId(customerCompanyUser.getUser()));
+        customerCompanyIdField.setValue(uiUtils.getNotNullId(customerCompanyUser.getCustomerCompany()));
+        userIdField.setValue(uiUtils.getNotNullId(customerCompanyUser.getUser()));
     }
 
     @Override
     public void updateFields() {
         customerCompanyUser = (CustomerCompanyUser) entity;
-        customerCompanyUser.setUser((UserTable)getEntityById(userIdField.getValue(), UserTable.class));
+        customerCompanyUser.setUser((UserTable)uiUtils.getEntityById(userIdField.getValue(), UserTable.class));
 
-        customerCompanyUser.setCustomerCompany((CustomerCompany)getEntityById(customerCompanyIdField.getValue(), CustomerCompany.class));
+        customerCompanyUser.setCustomerCompany((CustomerCompany)uiUtils.getEntityById(customerCompanyIdField.getValue(), CustomerCompany.class));
     }
 
     private void createEditFields() {
-        userIdField = createCombo("CustomerCompanyUser.userId", createIdContainer(UserTable.class.getSimpleName()));
-        customerCompanyIdField = createCombo("CustomerCompanyUser.customerCompanyId", createIdContainer(CustomerCompany.class.getSimpleName()));
+        userIdField = uiUtils.createCombo("CustomerCompanyUser.userId", uiUtils.createIdContainer(UserTable.class.getSimpleName()));
+        customerCompanyIdField = uiUtils.createCombo("CustomerCompanyUser.customerCompanyId", uiUtils.createIdContainer(CustomerCompany.class.getSimpleName()));
     }
 
 

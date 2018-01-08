@@ -28,7 +28,7 @@ public class CustomerCompanyView extends BaseView {
         VerticalLayout editLayout = new VerticalLayout(
                 new HorizontalLayout(new Component[]{subsidiaryIdField, contractIdField}));
 
-        container = createContainer(CustomerCompany.class);
+        container = uiUtils.createContainer(CustomerCompany.class);
 
         table = createTable(getMessage("CustomerCompany.CustomerCompany"), container, new
                 Object[]{"id", "subsidiary", "contract"});
@@ -42,21 +42,21 @@ public class CustomerCompanyView extends BaseView {
     @Override
     public void updateEditPanelFields() {
         customerCompany = (CustomerCompany) entity;
-        subsidiaryIdField.setValue(getNotNullId(customerCompany.getSubsidiary()));
-        contractIdField.setValue(getNotNullId(customerCompany.getContract()));
+        subsidiaryIdField.setValue(uiUtils.getNotNullId(customerCompany.getSubsidiary()));
+        contractIdField.setValue(uiUtils.getNotNullId(customerCompany.getContract()));
     }
 
     @Override
     public void updateFields() {
         customerCompany = (CustomerCompany) entity;
-        customerCompany.setContract((Contract)getEntityById(contractIdField.getValue(), Contract.class));
+        customerCompany.setContract((Contract)uiUtils.getEntityById(contractIdField.getValue(), Contract.class));
 
-        customerCompany.setSubsidiary((Subsidiary)getEntityById(subsidiaryIdField.getValue(), Subsidiary.class));
+        customerCompany.setSubsidiary((Subsidiary)uiUtils.getEntityById(subsidiaryIdField.getValue(), Subsidiary.class));
     }
 
     private void createEditFields() {
-        subsidiaryIdField = createCombo("CustomerCompany.subsidiaryId", createIdContainer(Subsidiary.class.getSimpleName()));
-        contractIdField = createCombo("CustomerCompany.contractId", createIdContainer(Contract.class.getSimpleName()));
+        subsidiaryIdField = uiUtils.createCombo("CustomerCompany.subsidiaryId", uiUtils.createIdContainer(Subsidiary.class.getSimpleName()));
+        contractIdField = uiUtils.createCombo("CustomerCompany.contractId", uiUtils.createIdContainer(Contract.class.getSimpleName()));
     }
 
 

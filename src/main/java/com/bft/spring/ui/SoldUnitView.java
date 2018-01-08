@@ -23,7 +23,7 @@ public class SoldUnitView extends BaseView {
         VerticalLayout editLayout = new VerticalLayout(new HorizontalLayout(
                 new Component[]{unitIdField, contractSubjectIdField}));
 
-        container = createContainer(SoldUnit.class);
+        container = uiUtils.createContainer(SoldUnit.class);
 
         table = createTable(getMessage("SoldUnit.soldUnit"), container, new
                 Object[]{"id", "unit", "contractSubject"});
@@ -36,20 +36,20 @@ public class SoldUnitView extends BaseView {
     @Override
     public void updateEditPanelFields() {
         soldUnit = (SoldUnit) entity;
-        contractSubjectIdField.setValue(getNotNullId(soldUnit.getContractSubject()));
-        unitIdField.setValue(getNotNullId(soldUnit.getUnit()));
+        contractSubjectIdField.setValue(uiUtils.getNotNullId(soldUnit.getContractSubject()));
+        unitIdField.setValue(uiUtils.getNotNullId(soldUnit.getUnit()));
     }
 
     @Override
     public void updateFields() {
         soldUnit = (SoldUnit) entity;
-        soldUnit.setContractSubject((ContractSubject) getEntityById(contractSubjectIdField.getValue(), ContractSubject.class));
-        soldUnit.setUnit((com.bft.spring.model.Unit) getEntityById(unitIdField.getValue(), com.bft.spring.model.Unit.class));
+        soldUnit.setContractSubject((ContractSubject) uiUtils.getEntityById(contractSubjectIdField.getValue(), ContractSubject.class));
+        soldUnit.setUnit((com.bft.spring.model.Unit) uiUtils.getEntityById(unitIdField.getValue(), com.bft.spring.model.Unit.class));
     }
 
     private void createEditFields() {
-        contractSubjectIdField = createCombo("SoldUnit.contractSubjectId", createIdContainer(ContractSubject.class.getSimpleName()));
-        unitIdField = createCombo("SoldUnit.unitId", createIdContainer(Unit.class.getSimpleName()));
+        contractSubjectIdField = uiUtils.createCombo("SoldUnit.contractSubjectId", uiUtils.createIdContainer(ContractSubject.class.getSimpleName()));
+        unitIdField = uiUtils.createCombo("SoldUnit.unitId", uiUtils.createIdContainer(Unit.class.getSimpleName()));
     }
 
 }

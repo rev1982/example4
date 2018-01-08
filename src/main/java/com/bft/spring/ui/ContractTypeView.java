@@ -24,7 +24,7 @@ public class ContractTypeView extends BaseView {
         VerticalLayout editLayout = new VerticalLayout(new HorizontalLayout(
                 new Component[]{nameField}));
 
-        container = createContainer(ContractType.class);
+        container = uiUtils.createContainer(ContractType.class);
 
         table = createTable(getMessage("contractType.ContractType"), container, new
                 Object[]{"id", "name"});

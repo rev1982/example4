@@ -24,7 +24,7 @@ public class ServiceView extends BaseView {
         VerticalLayout editLayout = new VerticalLayout(new HorizontalLayout(
                 new Component[]{nameField, defaultValField}));
 
-        container = createContainer(Service.class);
+        container = uiUtils.createContainer(Service.class);
 
         table = createTable(getMessage("service.service"), container, new
                 Object[]{"id", "name", "defaultVal"});

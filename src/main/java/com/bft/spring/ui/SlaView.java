@@ -29,7 +29,7 @@ public class SlaView extends BaseView {
         VerticalLayout editLayout = new VerticalLayout(new HorizontalLayout(
                 new Component[]{customerCompanyIdField, contractSubjectIdField, serviceIdField, priorityIdField, slaSecFild}));
 
-        container = createContainer(Sla.class);
+        container = uiUtils.createContainer(Sla.class);
 
         table = createTable(getMessage("sla.sla"), container, new
                 Object[]{"id", "customerCompany", "contractSubject", "service", "priority", "slaSec"});
@@ -42,28 +42,28 @@ public class SlaView extends BaseView {
     @Override
     public void updateEditPanelFields() {
         sla = (Sla) entity;
-        contractSubjectIdField.setValue(getNotNullId(sla.getContractSubject()));
-        serviceIdField.setValue(getNotNullId(sla.getService()));
-        priorityIdField.setValue(getNotNullId(sla.getPriority()));
-        contractSubjectIdField.setValue(getNotNullId(sla.getContractSubject()));
+        contractSubjectIdField.setValue(uiUtils.getNotNullId(sla.getContractSubject()));
+        serviceIdField.setValue(uiUtils.getNotNullId(sla.getService()));
+        priorityIdField.setValue(uiUtils.getNotNullId(sla.getPriority()));
+        contractSubjectIdField.setValue(uiUtils.getNotNullId(sla.getContractSubject()));
         slaSecFild.setValue(sla.getSlaSec() == null ? "" : sla.getSlaSec().toString());
     }
 
     @Override
     public void updateFields() {
         sla = (Sla) entity;
-        sla.setContractSubject((ContractSubject) getEntityById(contractSubjectIdField.getValue(), ContractSubject.class));
-        sla.setService((Service) getEntityById(serviceIdField.getValue(), Service.class));
-        sla.setPriority((Priority) getEntityById(priorityIdField.getValue(), Priority.class));
-        sla.setCustomerCompany((CustomerCompany) getEntityById(customerCompanyIdField.getValue(), CustomerCompany.class));
+        sla.setContractSubject((ContractSubject) uiUtils.getEntityById(contractSubjectIdField.getValue(), ContractSubject.class));
+        sla.setService((Service) uiUtils.getEntityById(serviceIdField.getValue(), Service.class));
+        sla.setPriority((Priority) uiUtils.getEntityById(priorityIdField.getValue(), Priority.class));
+        sla.setCustomerCompany((CustomerCompany) uiUtils.getEntityById(customerCompanyIdField.getValue(), CustomerCompany.class));
         sla.setSlaSec(slaSecFild.getValue() == null ? null : Long.parseLong(slaSecFild.getValue()));
     }
 
     private void createEditFields() {
-        contractSubjectIdField = createCombo("sla.contractSubjectId", createIdContainer(ContractSubject.class.getSimpleName()));
-        serviceIdField = createCombo("sla.serviceId", createIdContainer(Service.class.getSimpleName()));
-        priorityIdField = createCombo("sla.priorityId", createIdContainer(Priority.class.getSimpleName()));
-        customerCompanyIdField = createCombo("sla.customerCompanyId", createIdContainer(CustomerCompany.class.getSimpleName()));
+        contractSubjectIdField = uiUtils.createCombo("sla.contractSubjectId", uiUtils.createIdContainer(ContractSubject.class.getSimpleName()));
+        serviceIdField = uiUtils.createCombo("sla.serviceId", uiUtils.createIdContainer(Service.class.getSimpleName()));
+        priorityIdField = uiUtils.createCombo("sla.priorityId", uiUtils.createIdContainer(Priority.class.getSimpleName()));
+        customerCompanyIdField = uiUtils.createCombo("sla.customerCompanyId", uiUtils.createIdContainer(CustomerCompany.class.getSimpleName()));
         slaSecFild = createTextField("sla.slaSec");
     }
 

@@ -25,7 +25,7 @@ public class ProductView extends BaseView {
         VerticalLayout editLayout = new VerticalLayout(new HorizontalLayout(
                 new Component[]{nameField, emailField}));
 
-        container = createContainer(Product.class);
+        container = uiUtils.createContainer(Product.class);
 
         table = createTable(getMessage("product.product"), container, new
                 Object[]{"id", "name", "email"});
