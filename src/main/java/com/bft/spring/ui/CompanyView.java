@@ -119,7 +119,7 @@ public class CompanyView extends BaseView {
         company.setLunchUntil(uiUtils.getTimeFromCombo(lunchUntilField.getValue()));
         company.setSubdivisionDeId(subdivisionDeIdField.getValue() == null || subdivisionDeIdField.getValue().length() == 0 ?
                 null : Long.parseLong(subdivisionDeIdField.getValue()));
-        company.setSubdivisionPU((SubdivisionPU)uiUtils.getEntityById(subdivisionPUIdField.getValue(), SubdivisionPU.class));
+        company.setSubdivisionPU((SubdivisionPU) uiUtils.getEntityById(subdivisionPUIdField.getValue(), SubdivisionPU.class));
         company.setNote(noteField.getValue());
     }
 
