@@ -9,6 +9,7 @@ import java.sql.Time;
 @Entity
 @Table(name = "company", schema = "public", catalog = "test1")
 public class CompanyEntity {
+    //private static final int INCREMENT_COMPANY_SIZE_VALUE = 1;
     private long id;
     private String shortName;
     private String fullName;
@@ -31,6 +32,10 @@ public class CompanyEntity {
 
     @Id
     @Column(name = "id")
+//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "company_sequence")
+//    @SequenceGenerator(name = "company_sequence",
+//      sequenceName = "company_sequence",
+//      allocationSize = INCREMENT_COMPANY_SIZE_VALUE)
     public long getId() {
         return id;
     }
