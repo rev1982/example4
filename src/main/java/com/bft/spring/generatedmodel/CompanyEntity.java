@@ -9,7 +9,7 @@ import java.sql.Time;
 @Entity
 @Table(name = "company", schema = "public", catalog = "test1")
 public class CompanyEntity {
-    //private static final int INCREMENT_COMPANY_SIZE_VALUE = 4;//1//2//3//4//5
+    //private static final int INCREMENT_COMPANY_SIZE_VALUE = 4;//1//2//3//4//5//7
 
     private long id;
     private String shortName;
